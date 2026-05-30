@@ -10,7 +10,8 @@ interface Props {
   note?: string;
 }
 const { cta = 'Request an invite', note = 'Beta opens soon' } = Astro.props;
-const kitFormId = import.meta.env.PUBLIC_KIT_FORM_ID ?? '';
+// Public Kit form id (safe to commit). Override per-environment with PUBLIC_KIT_FORM_ID.
+const kitFormId = import.meta.env.PUBLIC_KIT_FORM_ID || '9503947';
 ---
 
 <div class="signup">
