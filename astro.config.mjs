@@ -4,15 +4,14 @@ import { defineConfig } from 'astro/config';
 // Standalone static marketing site for Streaq.
 // No integrations needed — plain HTML/CSS with a sprinkle of vanilla JS.
 //
-// Served from the GitHub project page:
-//   https://ankushgarg1998.github.io/streaq-landing
-// so `base` must match the repo name for asset URLs (/_astro/…) to resolve.
+// Served from the custom apex domain streaq.club (GitHub Pages).
+// `public/CNAME` holds the domain; assets resolve at the root (/_astro/…),
+// so no `base` is needed.
 //
-// To switch to the custom domain streaq.club later (one-line flip + DNS):
-//   1. set `base: '/'` (or remove the line) and `site: 'https://streaq.club'`
-//   2. re-add `public/CNAME` containing `streaq.club`
-//   3. point streaq.club DNS at GitHub Pages, then set the domain in repo settings
+// To revert to the GitHub project page (https://ankushgarg1998.github.io/streaq-landing):
+//   1. set `site: 'https://ankushgarg1998.github.io'` and `base: '/streaq-landing'`
+//   2. remove `public/CNAME`
+//   3. clear the custom domain in repo Settings → Pages
 export default defineConfig({
-  site: 'https://ankushgarg1998.github.io',
-  base: '/streaq-landing',
+  site: 'https://streaq.club',
 });
