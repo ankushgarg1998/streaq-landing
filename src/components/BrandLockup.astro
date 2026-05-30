@@ -1,0 +1,57 @@
+---
+// Streaq wordmark + checkmark mark. Mirrors BrandMark/BrandLockup in
+// landing-shared.jsx — a rounded ink tile holding a tick, then the name.
+interface Props {
+  size?: number;
+}
+const { size = 30 } = Astro.props;
+const tick = size * 0.55;
+---
+
+<div
+  class="brand"
+  style={`--bm-size:${size}px; --bm-radius:${size * 0.22}px; --bm-font:${size * 0.78}px;`}
+>
+  <span class="brand-mark">
+    <svg
+      width={tick}
+      height={tick}
+      viewBox="0 0 56 56"
+      fill="none"
+      stroke-width="7"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <polyline points="12,29 23,40 44,16"></polyline>
+    </svg>
+  </span>
+  <span class="brand-word">Streaq</span>
+</div>
+
+<style>
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+  }
+  .brand-mark {
+    width: var(--bm-size);
+    height: var(--bm-size);
+    border-radius: var(--bm-radius);
+    background: var(--brand-box);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .brand-mark svg {
+    stroke: var(--brand-tick);
+  }
+  .brand-word {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--bm-font);
+    letter-spacing: -0.02em;
+    color: var(--fg);
+  }
+</style>

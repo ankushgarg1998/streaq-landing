@@ -1,0 +1,78 @@
+---
+// Habit-matrix motif: rows = habits, columns = days. Filled dots = days kept.
+// The "kept" pattern is the deterministic hash from landing-motif.jsx, computed
+// at build time so the grid ships as static markup (no client JS).
+interface Props {
+  rows?: number;
+  cols?: number;
+  dot?: number;
+  gap?: number;
+}
+const { rows = 6, cols = 11, dot = 18, gap = 14 } = Astro.props;
+
+const HUES = [42, 162, 220, 300, 18, 340]; // amber, green, blue, plum, rust, rose
+const mFill = (h: number) => `oklch(0.78 0.09 ${h})`;
+const mDeep = (h: number) => `oklch(0.58 0.11 ${h})`;
+
+// deterministic "kept" pattern — looks lived-in, not random noise
+function kept(row: number, col: number, cols: number): boolean {
+  const r = Math.sin(row * 12.9898 + col * 78.233) * 43758.5453;
+  const v = r - Math.floor(r); // 0..1
+  const recencyBias = 0.18 * (col / (cols - 1)); // recent columns more likely filled
+  const base = [0.82, 0.7, 0.88, 0.55, 0.64, 0.48][row % 6];
+  return v < base - 0.12 + recencyBias;
+}
+
+const cells: { hue: number; on: boolean; last: boolean }[] = [];
+for (let r = 0; r < rows; r++) {
+  for (let c = 0; c < cols; c++) {
+    const hue = HUES[r % HUES.length];
+    cells.push({ hue, on: kept(r, c, cols), last: c === cols - 1 });
+  }
+}
+---
+
+<div
+  class="dotgrid"
+  style={`--dot:${dot}px; gap:${gap}px; grid-template-columns:repeat(${cols},${dot}px); grid-template-rows:repeat(${rows},${dot}px);`}
+>
+  {
+    cells.map((cell) => (
+      <span
+        class:list={[
+          'dot',
+          cell.on ? 'dot--on' : 'dot--off',
+          cell.last && cell.on ? 'dot--last' : '',
+        ]}
+        style={`--fill:${mFill(cell.hue)}; --deep:${mDeep(cell.hue)};`}
+      />
+    ))
+  }
+</div>
+
+<style>
+  .dotgrid {
+    display: grid;
+  }
+  .dot {
+    width: var(--dot);
+    height: var(--dot);
+    border-radius: var(--dot);
+    transition: transform 240ms cubic-bezier(0.2, 0.9, 0.3, 1.3);
+  }
+  .dot--on {
+    background: var(--fill);
+  }
+  .dot--off {
+    background: transparent;
+    border: 1.5px solid var(--dot-empty-border);
+  }
+  .dot--last.dot--on {
+    outline: 2px solid var(--deep);
+    outline-offset: 2px;
+  }
+  /* glow in dark, matching glow={dark} in the prototype */
+  :global([data-theme='dark']) .dot--on {
+    box-shadow: 0 0 calc(var(--dot) * 0.9) -2px var(--fill);
+  }
+</style>

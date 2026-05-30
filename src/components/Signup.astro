@@ -1,0 +1,192 @@
+---
+// Email capture. Inline row on desktop; stacked inside .layout-mobile.
+// On a valid submit it swaps to a confirmed card (visual only — no network).
+// Mirrors Signup in landing-shared.jsx.
+interface Props {
+  cta?: string;
+  note?: string;
+}
+const { cta = 'Request an invite', note = 'Beta opens soon' } = Astro.props;
+---
+
+<div class="signup">
+  <form class="signup-form" novalidate>
+    <input
+      class="signup-input"
+      type="email"
+      name="email"
+      placeholder="you@email.com"
+      autocomplete="email"
+      aria-label="Email address"
+    />
+    <button class="signup-btn" type="submit">{cta}</button>
+  </form>
+  <div class="signup-note">{note}</div>
+
+  <div class="signup-done" hidden>
+    <span class="signup-done-icon">
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 56 56"
+        fill="none"
+        stroke-width="8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <polyline points="12,29 23,40 44,16"></polyline>
+      </svg>
+    </span>
+    <div>
+      <div class="signup-done-title">You're on the list.</div>
+      <div class="signup-done-sub"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .signup {
+    max-width: 440px;
+    width: 100%;
+  }
+
+  /* ── desktop: inline row inside a bordered pill field ── */
+  .signup-form {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    padding: 6px;
+    border-radius: 15px;
+    background: var(--field-bg);
+    border: 1px solid var(--field-border);
+  }
+  .signup-input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: var(--font-ui);
+    font-size: 16px;
+    color: var(--fg);
+    padding: 0 14px;
+  }
+  .signup-input::placeholder {
+    color: var(--mute);
+  }
+  .signup-btn {
+    border: none;
+    cursor: pointer;
+    flex-shrink: 0;
+    background: var(--btn-bg);
+    color: var(--btn-fg);
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 15px;
+    padding: 13px 22px;
+    border-radius: 11px;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    transition:
+      transform 160ms ease,
+      opacity 160ms ease;
+  }
+  .signup-btn:hover {
+    opacity: 0.88;
+  }
+  .signup-note {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--mute);
+    letter-spacing: 0.04em;
+    margin-top: 13px;
+    padding-left: 4px;
+    text-transform: uppercase;
+  }
+
+  /* ── confirmed state ── */
+  .signup-done {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    border-radius: 14px;
+    background: var(--confirm-bg);
+    border: 1px solid var(--field-border);
+    max-width: 440px;
+  }
+  .signup-done[hidden] {
+    display: none;
+  }
+  .signup-done-icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    flex-shrink: 0;
+    background: var(--accent-fill);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .signup-done-icon svg {
+    stroke: var(--accent-deep);
+  }
+  .signup-done-title {
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--fg);
+  }
+  .signup-done-sub {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--mute);
+    letter-spacing: 0.03em;
+    margin-top: 2px;
+  }
+
+  /* ── mobile: stacked (column), each field gets its own border/bg ── */
+  :global(.layout-mobile) .signup {
+    max-width: 100%;
+  }
+  :global(.layout-mobile) .signup-form {
+    flex-direction: column;
+    gap: 10px;
+    padding: 0;
+    background: transparent;
+    border: none;
+  }
+  :global(.layout-mobile) .signup-input {
+    border: 1px solid var(--field-border);
+    background: var(--field-bg);
+    padding: 16px;
+    border-radius: 13px;
+  }
+  :global(.layout-mobile) .signup-btn {
+    padding: 16px 22px;
+    border-radius: 13px;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('.signup-form').forEach((form) => {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = form.querySelector<HTMLInputElement>('.signup-input');
+      const email = (input?.value ?? '').trim();
+      if (!/.+@.+\..+/.test(email)) return;
+
+      const wrap = form.closest('.signup');
+      if (!wrap) return;
+      const note = wrap.querySelector<HTMLElement>('.signup-note');
+      const done = wrap.querySelector<HTMLElement>('.signup-done');
+      const sub = wrap.querySelector<HTMLElement>('.signup-done-sub');
+      if (sub) sub.textContent = `We'll email ${email} when the beta opens.`;
+
+      // TODO: wire to waitlist endpoint (POST the email). Currently visual-only.
+      form.hidden = true;
+      if (note) note.hidden = true;
+      if (done) done.hidden = false;
+    });
+  });
+</script>

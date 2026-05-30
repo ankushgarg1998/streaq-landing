@@ -1,0 +1,252 @@
+---
+import '../styles/tokens.css';
+import BrandLockup from '../components/BrandLockup.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import Signup from '../components/Signup.astro';
+import DotGrid from '../components/DotGrid.astro';
+
+// Two faithful layouts share these components; CSS shows one per breakpoint.
+const KICKER = 'Coming soon · Early access';
+const CTA = 'Request an invite';
+const NOTE = 'Beta opens soon';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Streaq — Streaks worth keeping</title>
+    <meta
+      name="description"
+      content="Streaq — track your habits, share them with the friends who keep you honest, and watch the days stack up. Request an invite to the beta."
+    />
+    <meta name="theme-color" content="#edeae3" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Set the theme before paint to avoid a flash. Defaults to light. -->
+    <script is:inline>
+      (function () {
+        try {
+          var t = localStorage.getItem('streaq-theme');
+          document.documentElement.setAttribute(
+            'data-theme',
+            t === 'dark' ? 'dark' : 'light',
+          );
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      })();
+    </script>
+  </head>
+
+  <body>
+    <!-- ── Desktop · centered editorial ── -->
+    <main class="layout-desktop">
+      <div class="dt-glow" aria-hidden="true"></div>
+
+      <header class="dt-topbar">
+        <BrandLockup size={30} />
+        <ThemeToggle />
+      </header>
+
+      <section class="dt-center">
+        <div class="dt-eyebrow"><Eyebrow size={12}>{KICKER}</Eyebrow></div>
+        <h1 class="dt-h1">Streaks worth <em>keeping.</em></h1>
+        <p class="dt-p">
+          Track your habits, share them with the friends who keep you honest, and watch
+          the days stack up. Streaq opens to its first members soon.
+        </p>
+        <Signup cta={CTA} note={NOTE} />
+      </section>
+
+      <div class="dt-band"><DotGrid rows={4} cols={17} dot={17} gap={14} /></div>
+    </main>
+
+    <!-- ── Mobile · split stack ── -->
+    <main class="layout-mobile">
+      <div class="mb-glow" aria-hidden="true"></div>
+
+      <header class="mb-header">
+        <BrandLockup size={26} />
+        <ThemeToggle />
+      </header>
+
+      <section class="mb-hero">
+        <div class="mb-eyebrow"><Eyebrow size={11}>{KICKER}</Eyebrow></div>
+        <h1 class="mb-h1">Streaks worth <em>keeping.</em></h1>
+        <p class="mb-p">
+          Track your habits, share them with the friends who keep you honest, and watch
+          the days stack up.
+        </p>
+        <div class="mb-motif"><DotGrid rows={4} cols={9} dot={20} gap={13} /></div>
+      </section>
+
+      <div class="mb-signup"><Signup cta={CTA} note={NOTE} /></div>
+    </main>
+  </body>
+</html>
+
+<style>
+  /* breakpoint: desktop ≥ 721px, mobile ≤ 720px */
+  .layout-desktop {
+    display: block;
+  }
+  .layout-mobile {
+    display: none;
+  }
+  @media (max-width: 720px) {
+    .layout-desktop {
+      display: none;
+    }
+    .layout-mobile {
+      display: flex;
+    }
+  }
+
+  /* ── desktop ── */
+  .layout-desktop {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+  .dt-glow {
+    position: absolute;
+    top: -120px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 520px;
+    height: 520px;
+    border-radius: 520px;
+    background: radial-gradient(circle, oklch(0.58 0.11 220 / 0.16), transparent 70%);
+    pointer-events: none;
+    display: none;
+  }
+  :global([data-theme='dark']) .dt-glow {
+    display: block;
+  }
+  .dt-topbar {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px 60px;
+  }
+  .dt-center {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 56px;
+    margin-top: 70px;
+  }
+  .dt-eyebrow {
+    margin-bottom: 28px;
+  }
+  .dt-h1 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 0.98;
+    font-size: 96px;
+    margin: 0;
+    max-width: 900px;
+    color: var(--fg);
+    text-wrap: balance;
+  }
+  .dt-h1 em {
+    font-style: italic;
+    font-weight: 500;
+  }
+  .dt-p {
+    font-size: 21px;
+    line-height: 1.5;
+    color: var(--sub);
+    max-width: 560px;
+    margin: 28px 0 42px;
+    text-wrap: pretty;
+  }
+  .dt-band {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 50px;
+  }
+
+  /* ── mobile ── */
+  .layout-mobile {
+    position: relative;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 14px 28px 28px;
+    overflow: hidden;
+  }
+  .mb-glow {
+    position: absolute;
+    top: 60px;
+    right: -70px;
+    width: 240px;
+    height: 240px;
+    border-radius: 240px;
+    background: radial-gradient(circle, oklch(0.58 0.11 220 / 0.2), transparent 70%);
+    pointer-events: none;
+    display: none;
+  }
+  :global([data-theme='dark']) .mb-glow {
+    display: block;
+  }
+  .mb-header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .mb-hero {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+  }
+  .mb-eyebrow {
+    margin-bottom: 18px;
+  }
+  .mb-h1 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 0.98;
+    font-size: 48px;
+    margin: 0;
+    color: var(--fg);
+  }
+  .mb-h1 em {
+    font-style: italic;
+    font-weight: 500;
+  }
+  .mb-p {
+    font-size: 16.5px;
+    line-height: 1.5;
+    color: var(--sub);
+    margin: 18px 0 28px;
+    text-wrap: pretty;
+  }
+  .mb-motif {
+    display: flex;
+    justify-content: center;
+  }
+  .mb-signup {
+    position: relative;
+  }
+</style>

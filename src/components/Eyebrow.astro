@@ -1,0 +1,32 @@
+---
+// Mono kicker with a pulsing status dot. Mirrors Eyebrow in landing-shared.jsx.
+interface Props {
+  size?: number;
+}
+const { size = 12 } = Astro.props;
+---
+
+<span class="eyebrow" style={`font-size:${size}px;`}>
+  <span class="eyebrow-dot"></span>
+  <slot />
+</span>
+
+<style>
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--eyebrow-fg);
+    white-space: nowrap;
+  }
+  .eyebrow-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 7px;
+    background: var(--eyebrow-dot-color);
+    animation: streaq-pulse 2.4s ease-in-out infinite;
+  }
+</style>

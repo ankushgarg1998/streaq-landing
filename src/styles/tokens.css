@@ -1,0 +1,117 @@
+/* Streaq landing — design tokens.
+   Lifted verbatim from the design handoff (landing-shared.jsx + landing-themed.jsx).
+   Light theme is the default on :root; [data-theme='dark'] flips the whole page. */
+
+:root {
+  /* base palette */
+  --ink: #1a1815;
+  --cream: #edeae3;
+  --cream-hi: #f4f1ea;
+
+  /* themeable surface tokens (light defaults) */
+  --page-bg: #edeae3;
+  --fg: #1a1815;
+  --sub: #46413a;
+  --mute: #756e60;
+  --surface: #f4f1ea;
+  --surface-border: rgb(26 24 21 / 8%);
+
+  /* form */
+  --field-bg: rgb(255 255 255 / 60%);
+  --field-border: rgb(26 24 21 / 14%);
+  --confirm-bg: rgb(255 255 255 / 55%);
+  --btn-bg: #1a1815;
+  --btn-fg: #edeae3;
+
+  /* motif dots */
+  --dot-empty-border: rgb(26 24 21 / 12%);
+
+  /* brand mark */
+  --brand-box: #1a1815;
+  --brand-tick: #edeae3;
+
+  /* eyebrow pill */
+  --eyebrow-fg: #756e60;
+  --eyebrow-dot-color: #756e60;
+
+  /* theme toggle */
+  --toggle-track: rgb(26 24 21 / 10%);
+  --toggle-knob: #1a1815;
+  --toggle-icon-on: #edeae3;
+  --toggle-icon-off: rgb(26 24 21 / 35%);
+
+  /* accent (light = amber 42) — drives the confirmed-state checkmark + glow */
+  --accent-fill: oklch(0.78 0.09 42);
+  --accent-deep: oklch(0.58 0.11 42);
+
+  /* type */
+  --font-display: 'Bricolage Grotesque', serif;
+  --font-ui: 'Outfit', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+}
+
+[data-theme='dark'] {
+  --page-bg: #0f0d0b;
+  --fg: #edeae3;
+  --sub: rgb(237 234 227 / 66%);
+  --mute: rgb(237 234 227 / 50%);
+  --surface: rgb(237 234 227 / 4.5%);
+  --surface-border: rgb(237 234 227 / 10%);
+
+  --field-bg: rgb(237 234 227 / 6%);
+  --field-border: rgb(237 234 227 / 16%);
+  --confirm-bg: rgb(237 234 227 / 6%);
+  --btn-bg: #edeae3;
+  --btn-fg: #1a1815;
+
+  --dot-empty-border: rgb(255 255 255 / 14%);
+
+  --brand-box: #edeae3;
+  --brand-tick: #1a1815;
+
+  --eyebrow-fg: rgb(237 234 227 / 62%);
+  --eyebrow-dot-color: rgb(237 234 227 / 50%);
+
+  --toggle-track: rgb(237 234 227 / 14%);
+  --toggle-knob: #edeae3;
+  --toggle-icon-on: #1a1815;
+  --toggle-icon-off: rgb(237 234 227 / 45%);
+
+  /* accent (dark = blue 220) */
+  --accent-fill: oklch(0.78 0.09 220);
+  --accent-deep: oklch(0.58 0.11 220);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--page-bg);
+  color: var(--fg);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  transition:
+    background 280ms ease,
+    color 280ms ease;
+}
+
+@keyframes streaq-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
