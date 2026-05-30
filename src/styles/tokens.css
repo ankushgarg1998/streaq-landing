@@ -22,6 +22,7 @@
   --confirm-bg: rgb(255 255 255 / 55%);
   --btn-bg: #1a1815;
   --btn-fg: #edeae3;
+  --error-fg: oklch(0.55 0.17 25); /* rust — readable on cream */
 
   /* motif dots */
   --dot-empty-border: rgb(26 24 21 / 12%);
@@ -63,6 +64,7 @@
   --confirm-bg: rgb(237 234 227 / 6%);
   --btn-bg: #edeae3;
   --btn-fg: #1a1815;
+  --error-fg: oklch(0.72 0.15 30); /* lighter rust — readable on ink */
 
   --dot-empty-border: rgb(255 255 255 / 14%);
 

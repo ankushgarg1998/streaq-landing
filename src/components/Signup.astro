@@ -1,27 +1,32 @@
 ---
 // Email capture. Inline row on desktop; stacked inside .layout-mobile.
-// On a valid submit it swaps to a confirmed card (visual only — no network).
+// Submits to a Kit (formerly ConvertKit) form via its public, browser-safe
+// subscription endpoint — no API key ships to the client. Set the form's
+// numeric id in PUBLIC_KIT_FORM_ID (see .env.example). When unset, the form
+// falls back to a visual-only confirmation so local dev still works.
 // Mirrors Signup in landing-shared.jsx.
 interface Props {
   cta?: string;
   note?: string;
 }
 const { cta = 'Request an invite', note = 'Beta opens soon' } = Astro.props;
+const kitFormId = import.meta.env.PUBLIC_KIT_FORM_ID ?? '';
 ---
 
 <div class="signup">
-  <form class="signup-form" novalidate>
+  <form class="signup-form" novalidate data-kit-form={kitFormId}>
     <input
       class="signup-input"
       type="email"
-      name="email"
+      name="email_address"
       placeholder="you@email.com"
       autocomplete="email"
       aria-label="Email address"
     />
-    <button class="signup-btn" type="submit">{cta}</button>
+    <button class="signup-btn" type="submit" data-cta={cta}>{cta}</button>
   </form>
   <div class="signup-note">{note}</div>
+  <div class="signup-error" role="alert" hidden></div>
 
   <div class="signup-done" hidden>
     <span class="signup-done-icon">
@@ -94,6 +99,10 @@ const { cta = 'Request an invite', note = 'Beta opens soon' } = Astro.props;
   .signup-btn:hover {
     opacity: 0.88;
   }
+  .signup-btn:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
   .signup-note {
     font-family: var(--font-mono);
     font-size: 11.5px;
@@ -102,6 +111,17 @@ const { cta = 'Request an invite', note = 'Beta opens soon' } = Astro.props;
     margin-top: 13px;
     padding-left: 4px;
     text-transform: uppercase;
+  }
+  .signup-error {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--error-fg);
+    letter-spacing: 0.04em;
+    margin-top: 10px;
+    padding-left: 4px;
+  }
+  .signup-error[hidden] {
+    display: none;
   }
 
   /* ── confirmed state ── */
@@ -170,23 +190,70 @@ const { cta = 'Request an invite', note = 'Beta opens soon' } = Astro.props;
 
 <script>
   document.querySelectorAll<HTMLFormElement>('.signup-form').forEach((form) => {
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const input = form.querySelector<HTMLInputElement>('.signup-input');
+      const button = form.querySelector<HTMLButtonElement>('.signup-btn');
       const email = (input?.value ?? '').trim();
-      if (!/.+@.+\..+/.test(email)) return;
+      if (!/.+@.+\..+/.test(email)) {
+        input?.focus();
+        return;
+      }
 
       const wrap = form.closest('.signup');
       if (!wrap) return;
       const note = wrap.querySelector<HTMLElement>('.signup-note');
       const done = wrap.querySelector<HTMLElement>('.signup-done');
       const sub = wrap.querySelector<HTMLElement>('.signup-done-sub');
-      if (sub) sub.textContent = `We'll email ${email} when the beta opens.`;
+      const errorEl = wrap.querySelector<HTMLElement>('.signup-error');
 
-      // TODO: wire to waitlist endpoint (POST the email). Currently visual-only.
-      form.hidden = true;
-      if (note) note.hidden = true;
-      if (done) done.hidden = false;
+      const showConfirmed = () => {
+        if (sub) sub.textContent = `We'll email ${email} when the beta opens.`;
+        form.hidden = true;
+        if (note) note.hidden = true;
+        if (errorEl) errorEl.hidden = true;
+        if (done) done.hidden = false;
+      };
+
+      // No Kit form configured (e.g. local dev) → visual-only confirmation.
+      const formId = form.dataset.kitForm;
+      if (!formId) {
+        showConfirmed();
+        return;
+      }
+
+      const cta = button?.dataset.cta ?? button?.textContent ?? '';
+      if (button) {
+        button.disabled = true;
+        button.textContent = 'Joining…';
+      }
+      if (errorEl) errorEl.hidden = true;
+
+      try {
+        // Kit's public form-subscription endpoint. No API key is required or
+        // exposed; `Accept: application/json` returns JSON instead of redirecting.
+        const res = await fetch(`https://app.convertkit.com/forms/${formId}/subscriptions`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({ email_address: email }),
+        });
+        const data = await res.json().catch(() => ({}) as { status?: string });
+        if (res.ok && (data.status ? data.status === 'success' : true)) {
+          showConfirmed();
+        } else {
+          throw new Error(`Kit subscribe failed (${res.status})`);
+        }
+      } catch (err) {
+        if (errorEl) {
+          errorEl.textContent = 'Something went wrong — please try again.';
+          errorEl.hidden = false;
+        }
+      } finally {
+        if (button) {
+          button.disabled = false;
+          button.textContent = cta;
+        }
+      }
     });
   });
 </script>
