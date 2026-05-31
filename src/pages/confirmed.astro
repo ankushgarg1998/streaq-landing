@@ -68,7 +68,7 @@ import DotGrid from '../components/DotGrid.astro';
         </span>
         <div class="eyebrow"><Eyebrow size={12}>Spot confirmed</Eyebrow></div>
         <h1 class="h1">You're on the <em>streak.</em></h1>
-        <p class="p">
+        <p class="p" id="confirm-copy">
           Your place on the waitlist is locked in. We'll email you the moment Streaq opens
           its doors — keep an eye on your inbox.
         </p>
@@ -77,6 +77,34 @@ import DotGrid from '../components/DotGrid.astro';
 
       <div class="band"><DotGrid rows={4} cols={17} dot={17} gap={14} /></div>
     </main>
+
+    <!--
+      Personalize from Kit's "Send subscriber data to thank you page" params.
+      Kit appends them to the redirect URL (e.g. ?first_name=…&email_address=…&id=…).
+      These are user-controllable, so render only via textContent (never innerHTML)
+      and cap length. Falls back to the generic copy when params are absent.
+    -->
+    <script is:inline>
+      (function () {
+        try {
+          var params = new URLSearchParams(location.search);
+          var clean = function (v) {
+            return (v || '').toString().trim().slice(0, 80);
+          };
+          var firstName = clean(params.get('first_name'));
+          var email = clean(params.get('email_address') || params.get('email'));
+          var p = document.getElementById('confirm-copy');
+          if (!p || (!firstName && !email)) return;
+          var lead = firstName ? 'Welcome, ' + firstName + '! ' : '';
+          var mail = email ? 'We’ll email ' + email : 'We’ll email you';
+          p.textContent =
+            lead +
+            'Your place on the waitlist is locked in. ' +
+            mail +
+            ' the moment Streaq opens its doors — keep an eye on your inbox.';
+        } catch (e) {}
+      })();
+    </script>
   </body>
 </html>
 
