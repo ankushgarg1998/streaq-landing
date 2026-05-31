@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 56" width="56" height="56">
+  <style>
+    .box { fill: #1a1815; }
+    .tick { stroke: #edeae3; }
+    @media (prefers-color-scheme: dark) {
+      .box { fill: #edeae3; }
+      .tick { stroke: #1a1815; }
+    }
+  </style>
+  <rect class="box" width="56" height="56" rx="12" />
+  <polyline class="tick" points="12,29 23,40 44,16"
+    fill="none" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+</svg>
