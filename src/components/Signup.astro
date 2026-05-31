@@ -44,7 +44,7 @@ const kitFormId = import.meta.env.PUBLIC_KIT_FORM_ID || '9503947';
       </svg>
     </span>
     <div>
-      <div class="signup-done-title">You're on the list.</div>
+      <div class="signup-done-title">Almost there — check your inbox.</div>
       <div class="signup-done-sub"></div>
     </div>
   </div>
@@ -209,7 +209,8 @@ const kitFormId = import.meta.env.PUBLIC_KIT_FORM_ID || '9503947';
       const errorEl = wrap.querySelector<HTMLElement>('.signup-error');
 
       const showConfirmed = () => {
-        if (sub) sub.textContent = `We'll email ${email} when the beta opens.`;
+        if (sub)
+          sub.textContent = `We sent ${email} a link — click it to confirm your spot.`;
         form.hidden = true;
         if (note) note.hidden = true;
         if (errorEl) errorEl.hidden = true;
