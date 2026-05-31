@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="public/og.png" alt="Streaq — streaks worth keeping" width="100%" />
+</p>
+
 # Streaq
 
 ### Streaks worth keeping.
