@@ -207,6 +207,25 @@ const NOTE = 'Beta opens soon';
     padding-bottom: 50px;
   }
 
+  /* On wide screens, lay the desktop column out in normal flow: .dt-center
+     (flex:1) pushes the dot band to the bottom on tall viewports, and on short
+     ones the band sits below the content (with breathing room) so the page
+     scrolls instead of the dots colliding with the hero. Scoped to ≥721px so it
+     never overrides the mobile `display:none` from the breakpoint above. */
+  @media (min-width: 721px) {
+    .layout-desktop {
+      display: flex;
+      flex-direction: column;
+    }
+    .dt-center {
+      flex: 1;
+    }
+    .dt-band {
+      position: static;
+      padding: 56px 0 50px;
+    }
+  }
+
   /* ── mobile ── */
   .layout-mobile {
     position: relative;
