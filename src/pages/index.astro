@@ -138,9 +138,7 @@ const NOTE = 'Beta opens soon';
   .layout-desktop {
     position: relative;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
+    overflow: hidden;
   }
   .dt-glow {
     position: absolute;
@@ -166,7 +164,6 @@ const NOTE = 'Beta opens soon';
   }
   .dt-center {
     position: relative;
-    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -201,12 +198,13 @@ const NOTE = 'Beta opens soon';
     text-wrap: pretty;
   }
   .dt-band {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: flex;
     justify-content: center;
-    /* normal flow: .dt-center (flex:1) pushes this to the bottom on tall
-       viewports; on short ones it sits below the content (with breathing
-       room) and the page scrolls instead of the dots colliding. */
-    padding: 56px 0 50px;
+    padding-bottom: 50px;
   }
 
   /* ── mobile ── */
