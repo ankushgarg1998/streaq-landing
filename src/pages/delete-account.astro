@@ -1,0 +1,389 @@
+---
+import '../styles/tokens.css';
+import BrandLockup from '../components/BrandLockup.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+
+// The "Delete account URL" submitted in the Google Play Console → Data safety
+// form. Play requires this page to, in its own words:
+//   1. refer to the app or developer name shown on the store listing
+//   2. prominently feature the steps to request account deletion
+//   3. specify the types of data deleted or kept, and any retention period
+// All three are load-bearing for review — don't bury them behind a link or
+// reword them into vagueness. Deletion is honored manually today (there is no
+// DELETE /account endpoint yet), so the steps describe the email route.
+//
+// Retention numbers must stay consistent with /privacy §08.
+
+const CONTACT = 'hello@streaq.club';
+const UPDATED = 'August 27, 2026';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Delete your Streaq account</title>
+    <meta
+      name="description"
+      content="How to request deletion of your Streaq account and all associated data."
+    />
+    <meta name="theme-color" content="#edeae3" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href="https://streaq.club/delete-account" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Set the theme before paint to avoid a flash. Defaults to light. -->
+    <script is:inline>
+      (function () {
+        try {
+          var t = localStorage.getItem('streaq-theme');
+          document.documentElement.setAttribute(
+            'data-theme',
+            t === 'dark' ? 'dark' : 'light',
+          );
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      })();
+    </script>
+  </head>
+
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <a class="brand-link" href="/" aria-label="Streaq home"><BrandLockup size={30} /></a>
+        <ThemeToggle />
+      </header>
+
+      <main class="doc">
+        <div class="doc-head">
+          <div class="doc-eyebrow"><Eyebrow size={12}>Account deletion</Eyebrow></div>
+          <h1 class="h1">Delete your <em>Streaq</em> account.</h1>
+          <p class="lede">
+            This page explains how to delete your account for <strong>Streaq</strong>, the
+            habit-tracking app published by Ankush Garg, and exactly what happens to your
+            data when you do.
+          </p>
+        </div>
+
+        <!-- Bullet 2: the steps, first thing on the page and impossible to miss. -->
+        <section class="s">
+          <h2>How to request deletion</h2>
+          <ol class="steps">
+            <li>
+              <span class="step-n">1</span>
+              <div>
+                <strong>Email <a href={`mailto:${CONTACT}`}>{CONTACT}</a></strong> from the
+                email address you use to sign in to Streaq. Sending from that address is
+                how we verify the account is yours.
+              </div>
+            </li>
+            <li>
+              <span class="step-n">2</span>
+              <div>
+                <strong>Use the subject line “Delete my account.”</strong> You don't need to
+                explain why. If you can't email from your account address, write from any
+                address and say which account you mean — we'll verify another way before
+                deleting anything.
+              </div>
+            </li>
+            <li>
+              <span class="step-n">3</span>
+              <div>
+                <strong>We'll reply to confirm</strong>, usually within a few days. Once you
+                confirm, deletion is final and cannot be undone.
+              </div>
+            </li>
+          </ol>
+          <p class="cta-line">
+            <a class="cta" href={`mailto:${CONTACT}?subject=Delete%20my%20account`}
+              >Email {CONTACT}</a
+            >
+          </p>
+        </section>
+
+        <!-- Bullet 3: what goes, what stays, and for how long. -->
+        <section class="s">
+          <h2>What gets deleted</h2>
+          <p>
+            All personal data tied to your account is permanently deleted from our systems
+            within <strong>30 days</strong> of your confirmed request:
+          </p>
+          <ul>
+            <li>your account and sign-in credentials, including any Google sign-in link;</li>
+            <li>your email address, display name, avatar, and colour;</li>
+            <li>every habit you created, with its name, description, icon, and schedule;</li>
+            <li>your entire check-in and streak history;</li>
+            <li>
+              your friend connections, and any pending friend requests you sent or received.
+            </li>
+          </ul>
+          <p>
+            Your habits and streaks also disappear from your friends' views at the same
+            time.
+          </p>
+
+          <h2>What is kept, and for how long</h2>
+          <ul>
+            <li>
+              <strong>Encrypted backups</strong> — deleted data can persist in routine
+              database backups for up to <strong>30 further days</strong> (60 days from your
+              request in total), after which those backups expire and are overwritten. It is
+              not accessible in the app during that window.
+            </li>
+            <li>
+              <strong>Anonymous crash reports</strong> — diagnostic error reports that
+              contain no personal information are retained by our error-monitoring provider
+              for up to <strong>90 days</strong> and then discarded.
+            </li>
+            <li>
+              <strong>Records we're legally required to keep</strong> — retained only for as
+              long as the law requires, and for no other purpose.
+            </li>
+            <li>
+              <strong>Waitlist email</strong> — if you separately signed up for launch
+              emails on streaq.club, that's a separate list. Use the unsubscribe link in any
+              of those emails, or ask us in the same message.
+            </li>
+          </ul>
+          <p class="note">
+            Streaq also keeps a copy of your own data <strong>on your device</strong> so it
+            works offline. Deleting the app from your phone, or clearing the site data in
+            your browser, removes that local copy.
+          </p>
+        </section>
+
+        <section class="s">
+          <h2>Questions</h2>
+          <p>
+            Email <a href={`mailto:${CONTACT}`}>{CONTACT}</a>. For the full picture of what
+            Streaq collects and why, see the <a href="/privacy">privacy policy</a>.
+          </p>
+          <p class="updated">Last updated {UPDATED}</p>
+        </section>
+      </main>
+
+      <footer class="foot">
+        <a class="home-link" href="/">Back to streaq.club</a>
+      </footer>
+    </div>
+  </body>
+</html>
+
+<style>
+  .page {
+    position: relative;
+    min-height: 100vh;
+  }
+
+  .topbar {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px 60px;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .brand-link {
+    text-decoration: none;
+  }
+
+  .doc {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 24px 60px 0;
+  }
+
+  .doc-head {
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--surface-border);
+  }
+  .doc-eyebrow {
+    margin-bottom: 22px;
+  }
+  .h1 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    font-size: clamp(40px, 6.4vw, 64px);
+    margin: 0;
+    color: var(--fg);
+    text-wrap: balance;
+  }
+  .h1 em {
+    font-style: italic;
+    font-weight: 500;
+  }
+  .lede {
+    font-size: clamp(16.5px, 1.6vw, 19px);
+    line-height: 1.6;
+    color: var(--sub);
+    margin: 24px 0 0;
+    text-wrap: pretty;
+  }
+
+  .s {
+    padding-top: 48px;
+  }
+  .s h2 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.022em;
+    font-size: clamp(23px, 2.8vw, 28px);
+    line-height: 1.15;
+    color: var(--fg);
+    margin: 0 0 18px;
+  }
+  .s h2 + h2,
+  .s ul + h2 {
+    margin-top: 44px;
+  }
+  .s p {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--sub);
+    margin: 0 0 16px;
+    text-wrap: pretty;
+  }
+  .s ul {
+    margin: 0 0 16px;
+    padding: 0 0 0 20px;
+  }
+  .s li {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--sub);
+    margin-bottom: 10px;
+    padding-left: 4px;
+  }
+  .s li::marker {
+    color: var(--mute);
+  }
+  .s strong {
+    color: var(--fg);
+    font-weight: 600;
+  }
+  .s a {
+    color: var(--fg);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--field-border);
+    transition: text-decoration-color 160ms ease;
+  }
+  .s a:hover {
+    text-decoration-color: var(--fg);
+  }
+
+  /* Numbered steps — the part a Play reviewer needs to find at a glance. */
+  .steps {
+    list-style: none;
+    margin: 0 0 28px;
+    padding: 0;
+    counter-reset: step;
+  }
+  .steps li {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 0 0 18px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--sub);
+  }
+  .step-n {
+    flex: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 9px;
+    background: var(--accent-fill);
+    color: var(--accent-deep);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(1px);
+  }
+
+  .cta-line {
+    margin: 4px 0 0 !important;
+  }
+  .cta {
+    display: inline-block;
+    background: var(--btn-bg);
+    color: var(--btn-fg) !important;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 13px 24px;
+    border-radius: 11px;
+    text-decoration: none !important;
+    transition: opacity 160ms ease;
+  }
+  .cta:hover {
+    opacity: 0.86;
+  }
+
+  .note {
+    border-left: 2px solid var(--field-border);
+    padding-left: 16px;
+    font-size: 15px !important;
+    color: var(--mute) !important;
+  }
+  .updated {
+    font-family: var(--font-mono);
+    font-size: 11.5px !important;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mute) !important;
+    margin-top: 28px !important;
+  }
+
+  .foot {
+    max-width: 720px;
+    margin: 64px auto 0;
+    padding: 56px 60px 60px;
+    border-top: 1px solid var(--surface-border);
+  }
+  .home-link {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--mute);
+    text-decoration: none;
+    border-bottom: 1px solid var(--field-border);
+    padding-bottom: 2px;
+    transition: color 160ms ease;
+  }
+  .home-link:hover {
+    color: var(--fg);
+  }
+
+  @media (max-width: 720px) {
+    .topbar {
+      padding: 14px 28px;
+    }
+    .doc {
+      padding: 18px 28px 0;
+    }
+    .s {
+      padding-top: 38px;
+    }
+    .foot {
+      padding: 44px 28px 48px;
+      margin-top: 48px;
+    }
+  }
+</style>
