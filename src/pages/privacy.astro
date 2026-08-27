@@ -1,0 +1,774 @@
+---
+import '../styles/tokens.css';
+import BrandLockup from '../components/BrandLockup.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+
+// Privacy policy for the Streaq app (app.streaq.club + the iOS/Android builds)
+// and this marketing site. Google Play requires a publicly reachable privacy
+// policy URL for the store listing — this page is that URL, and it must stay
+// reachable and in sync with the Play "Data safety" declarations.
+//
+// Keep the facts here true to the code:
+//   - collected fields mirror the `users` / `habits` / `completions` /
+//     `friendships` tables in proj2/server/migrations/
+//   - the processor list mirrors what the app + API actually call out to
+//   - Sentry runs with `sendDefaultPii: false` and a fully masked, error-only
+//     Session Replay (proj2/app/src/lib/observability/)
+// If any of that changes, update this page and the Data safety form together.
+
+const UPDATED = 'August 27, 2026';
+const CONTACT = 'hello@streaq.club';
+
+// Each section renders as a numbered block; the nav is derived from this list
+// so the two can never drift apart.
+const sections = [
+  { id: 'who-we-are', title: 'Who we are' },
+  { id: 'what-we-collect', title: 'What we collect' },
+  { id: 'how-we-use-it', title: 'How we use it' },
+  { id: 'what-friends-see', title: 'What friends can see' },
+  { id: 'who-we-share-with', title: 'Who we share it with' },
+  { id: 'where-its-stored', title: 'Where it lives, and for how long' },
+  { id: 'your-choices', title: 'Your choices and rights' },
+  { id: 'deleting', title: 'Deleting your account' },
+  { id: 'security', title: 'Security' },
+  { id: 'children', title: "Children's privacy" },
+  { id: 'changes', title: 'Changes to this policy' },
+  { id: 'contact', title: 'Contact' },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Privacy Policy — Streaq</title>
+    <meta
+      name="description"
+      content="How Streaq collects, uses, shares, and deletes your data — plainly, and in full."
+    />
+    <meta name="theme-color" content="#edeae3" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href="https://streaq.club/privacy" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Set the theme before paint to avoid a flash. Defaults to light. -->
+    <script is:inline>
+      (function () {
+        try {
+          var t = localStorage.getItem('streaq-theme');
+          document.documentElement.setAttribute(
+            'data-theme',
+            t === 'dark' ? 'dark' : 'light',
+          );
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      })();
+    </script>
+  </head>
+
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <a class="brand-link" href="/" aria-label="Streaq home"><BrandLockup size={30} /></a>
+        <ThemeToggle />
+      </header>
+
+      <main class="doc">
+        <div class="doc-head">
+          <div class="doc-eyebrow"><Eyebrow size={12}>Legal</Eyebrow></div>
+          <h1 class="h1">Privacy <em>policy.</em></h1>
+          <p class="lede">
+            Streaq is a habit tracker you share with a few friends. That means we hold two
+            things worth being careful with: who you are, and what you said you'd do every
+            day. This page says exactly what we collect, why, who else touches it, and how
+            to get rid of it.
+          </p>
+          <p class="updated">Last updated {UPDATED}</p>
+        </div>
+
+        <nav class="toc" aria-label="Sections">
+          <ol>
+            {
+              sections.map((s, i) => (
+                <li>
+                  <a href={`#${s.id}`}>
+                    <span class="toc-num">{String(i + 1).padStart(2, '0')}</span>
+                    <span class="toc-title">{s.title}</span>
+                  </a>
+                </li>
+              ))
+            }
+          </ol>
+        </nav>
+
+        <section class="s" id="who-we-are">
+          <h2><span class="s-num">01</span>Who we are</h2>
+          <p>
+            Streaq is built and operated by Ankush Garg, an individual developer based in
+            India. For the purposes of data-protection law, that's the person responsible
+            for your data — the "data controller" or "data fiduciary," depending on which
+            law applies to you.
+          </p>
+          <p>
+            This policy covers the Streaq app — the web app at <a
+              href="https://app.streaq.club">app.streaq.club</a
+            > and the iOS and Android apps — and this marketing site at streaq.club. Where
+            something applies to only one of those, it says so.
+          </p>
+        </section>
+
+        <section class="s" id="what-we-collect">
+          <h2><span class="s-num">02</span>What we collect</h2>
+          <p>
+            Only what the app needs to work. There is no advertising SDK in Streaq, no
+            third-party analytics, no tracking pixels, and no device-advertising identifier.
+            We don't buy data about you, and we don't sell or rent yours.
+          </p>
+
+          <h3>Account information</h3>
+          <ul>
+            <li>
+              <strong>Your email address</strong> — how you sign in, how friends find you,
+              and where we send account and friend-request emails.
+            </li>
+            <li>
+              <strong>A display name</strong> that you choose, plus a one-letter avatar and
+              an accent colour derived from it.
+            </li>
+            <li>
+              <strong>A password</strong>, if you sign up with one. It's handled by our
+              authentication provider and stored only as a salted hash — we never see or
+              store the password itself.
+            </li>
+            <li>
+              <strong>Your Google account's email, name, and profile picture</strong>, if
+              you choose Sign in with Google. We request only basic profile and email
+              access. We get no access to your Gmail, Drive, Contacts, or anything else in
+              your Google account.
+            </li>
+          </ul>
+
+          <h3>Your habit data</h3>
+          <ul>
+            <li>
+              <strong>The habits you create</strong> — the name, an optional description, an
+              icon or emoji, a colour, and the schedule you set.
+            </li>
+            <li>
+              <strong>Your check-ins</strong> — which habit you completed, which day it
+              counted for, and when you marked it.
+            </li>
+          </ul>
+          <p class="note">
+            Habit names are free text, so treat them as you would anything else you type
+            into an app you share with friends. If you'd rather a habit not be legible to
+            someone else, name it something only you would recognise.
+          </p>
+
+          <h3>Your friends</h3>
+          <ul>
+            <li>
+              <strong>Friend connections</strong> — who you've sent a request to, who sent
+              you one, which are accepted, and when.
+            </li>
+            <li>
+              <strong>The email address you type when adding a friend.</strong> We use it
+              once, to look up whether an account exists, and then store the resulting
+              connection. Streaq does not read your phone or device contacts, and does not
+              ask for contacts permission.
+            </li>
+          </ul>
+
+          <h3>Diagnostics</h3>
+          <ul>
+            <li>
+              <strong>Crash and error reports</strong>, collected through Sentry when
+              something goes wrong. These include the error, the app version, and general
+              device and browser information — the kind of thing needed to reproduce a bug.
+            </li>
+            <li>
+              <strong>A masked replay of the moments before an error.</strong> Sentry's
+              session replay is configured to record <em>only</em> when an error fires, and
+              to mask all text and all form inputs before anything leaves your device — so
+              we see the shape of what happened, not your habit names or what you typed. We
+              have also disabled Sentry's automatic collection of personal information such
+              as IP addresses.
+            </li>
+          </ul>
+
+          <h3>If you join the waitlist on this site</h3>
+          <ul>
+            <li>
+              <strong>Your email address</strong>, sent to Kit (ConvertKit), our email
+              provider, and used only to email you about Streaq's launch. It's double
+              opt-in: you're only added once you click the confirmation link. Every email
+              has an unsubscribe link.
+            </li>
+          </ul>
+          <p class="note">
+            This marketing site sets no cookies and runs no analytics. It stores one thing
+            in your browser: whether you picked light or dark mode. That never leaves your
+            device.
+          </p>
+        </section>
+
+        <section class="s" id="how-we-use-it">
+          <h2><span class="s-num">03</span>How we use it</h2>
+          <p>We use what we collect to:</p>
+          <ul>
+            <li>create your account and sign you in;</li>
+            <li>
+              store your habits and check-ins, and sync them across every device you use;
+            </li>
+            <li>show you your streaks, your week, and your month;</li>
+            <li>
+              let you add friends, and show you and your friends each other's progress;
+            </li>
+            <li>
+              send you transactional email — confirming your address, resetting your
+              password, and telling you when someone sends or accepts a friend request;
+            </li>
+            <li>find, diagnose, and fix crashes and bugs;</li>
+            <li>
+              keep the service secure, prevent abuse, and meet our legal obligations.
+            </li>
+          </ul>
+          <p>
+            We do not use your habit data for advertising, profiling, or automated
+            decision-making, and we don't use it to train machine-learning models.
+          </p>
+          <p>
+            If you're in the UK, EU, or another region with similar law: we rely on
+            <strong>performance of a contract</strong> for everything needed to run your
+            account and sync your habits, on <strong>legitimate interests</strong> for
+            security and crash diagnostics, and on <strong>consent</strong> for waitlist
+            marketing email — which you can withdraw at any time by unsubscribing.
+          </p>
+        </section>
+
+        <section class="s" id="what-friends-see">
+          <h2><span class="s-num">04</span>What friends can see</h2>
+          <p>
+            This is the part worth reading twice, because it's the one thing about Streaq
+            that surprises people.
+          </p>
+          <p>
+            <strong
+              >Once you accept a friend request, that friend can see all of your habits and
+              your check-in history for them</strong
+            >, along with your display name and avatar. There is no per-habit privacy
+            setting in this version of Streaq — a habit is either something you track in
+            Streaq, and therefore visible to your accepted friends, or something you don't
+            track here. That's the point of the app: the friends keep you honest.
+          </p>
+          <p>
+            Friendship is mutual and consensual. Nobody sees anything until you accept their
+            request, and removing a friend ends their access. Someone who knows your email
+            address can send you a request; they see nothing unless you accept.
+          </p>
+          <p>
+            Your habits are never public. They are not visible to other Streaq users who
+            aren't your accepted friends, they're not indexed by search engines, and there
+            is no public profile page.
+          </p>
+        </section>
+
+        <section class="s" id="who-we-share-with">
+          <h2><span class="s-num">05</span>Who we share it with</h2>
+          <p>
+            We don't sell your personal information, and we don't share it for advertising.
+            We share it only with the service providers that make Streaq run, each of which
+            processes it on our instructions and for no purpose of their own:
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Provider</th>
+                  <th scope="col">What it handles</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Supabase</td>
+                  <td>
+                    Our database and authentication — accounts, habits, check-ins, and
+                    friendships.
+                  </td>
+                </tr>
+                <tr>
+                  <td>PowerSync</td>
+                  <td>
+                    Syncs your data between our database and your devices, so the app works
+                    offline.
+                  </td>
+                </tr>
+                <tr>
+                  <td>Railway</td>
+                  <td>Hosts the API that receives your changes and writes them.</td>
+                </tr>
+                <tr>
+                  <td>Cloudflare</td>
+                  <td>Serves and protects the web app.</td>
+                </tr>
+                <tr>
+                  <td>GitHub Pages</td>
+                  <td>Serves this marketing site.</td>
+                </tr>
+                <tr>
+                  <td>Resend</td>
+                  <td>Sends account and friend-notification email.</td>
+                </tr>
+                <tr>
+                  <td>Sentry</td>
+                  <td>Receives crash and error reports.</td>
+                </tr>
+                <tr>
+                  <td>Kit (ConvertKit)</td>
+                  <td>Sends waitlist email, if you signed up for it.</td>
+                </tr>
+                <tr>
+                  <td>Google</td>
+                  <td>
+                    Verifies your identity if you use Sign in with Google, and distributes
+                    the Android app.
+                  </td>
+                </tr>
+                <tr>
+                  <td>Apple</td>
+                  <td>Distributes the iOS app.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            Beyond that, we may disclose information if we're legally required to — a valid
+            court order or lawful government request — or where it's necessary to protect
+            our rights or someone's safety. If Streaq is ever acquired or transferred, your
+            data may move with it; we'd tell you before that happened, and this policy would
+            keep applying until we told you otherwise.
+          </p>
+        </section>
+
+        <section class="s" id="where-its-stored">
+          <h2><span class="s-num">06</span>Where it lives, and for how long</h2>
+          <p>
+            Your data is stored on servers operated by the providers above, which are
+            located in the United States and other countries. If you're in the EU, UK, or
+            India, this means your information is transferred outside your country. Where
+            that transfer needs a legal basis, we rely on our providers' Standard
+            Contractual Clauses and equivalent safeguards.
+          </p>
+          <p>
+            A copy of your own data also lives <strong>on your device</strong>, in a local
+            database, so Streaq works offline. Deleting the app, or clearing the site data
+            in your browser, removes that local copy.
+          </p>
+          <p>
+            We keep your account data for as long as your account exists. When you delete
+            your account we remove it as described below. Crash reports are kept by Sentry
+            on a rolling retention window of up to 90 days and then discarded. Waitlist
+            emails are kept until you unsubscribe.
+          </p>
+        </section>
+
+        <section class="s" id="your-choices">
+          <h2><span class="s-num">07</span>Your choices and rights</h2>
+          <p>
+            You can edit your display name, add and delete habits, undo check-ins, and
+            remove friends at any time from inside the app. Deleting a habit removes it and
+            its check-ins from your friends' view too.
+          </p>
+          <p>
+            Depending on where you live, you also have the right to <strong
+              >access</strong
+            > a copy of your data, to <strong>correct</strong> it, to <strong>delete</strong
+            > it, to <strong>object to or restrict</strong> how we use it, to
+            <strong>port</strong> it elsewhere in a machine-readable form, and to
+            <strong>withdraw consent</strong> you've given. These rights come from the GDPR
+            and UK GDPR, India's Digital Personal Data Protection Act, and laws such as the
+            CCPA in California, among others.
+          </p>
+          <p>
+            To exercise any of them, email <a href={`mailto:${CONTACT}`}>{CONTACT}</a>. We
+            respond within 30 days. We won't charge you, and we won't treat you differently
+            for asking.
+          </p>
+          <p>
+            If you think we've mishandled your data, please tell us first — but you also
+            have the right to complain to your local data-protection authority, or to
+            India's Data Protection Board.
+          </p>
+        </section>
+
+        <section class="s" id="deleting">
+          <h2><span class="s-num">08</span>Deleting your account</h2>
+          <p>
+            Email <a href={`mailto:${CONTACT}`}>{CONTACT}</a> from the address on your
+            Streaq account and ask us to delete it.
+          </p>
+          <p>
+            We'll confirm, then delete your account and the personal data attached to it —
+            your profile, your habits, your check-ins, and your friend connections — within
+            30 days. Backups roll off within a further 30 days. We keep nothing afterwards
+            except anything a law requires us to retain.
+          </p>
+          <p>
+            Deleting your account also removes your habits and streaks from your friends'
+            views. To remove the copy on your own device, delete the app or clear the site's
+            data in your browser.
+          </p>
+        </section>
+
+        <section class="s" id="security">
+          <h2><span class="s-num">09</span>Security</h2>
+          <p>
+            Everything travels over encrypted connections (HTTPS/TLS), and is encrypted at
+            rest by our hosting providers. Passwords are stored only as salted hashes.
+            Access to the database is restricted by row-level security rules, so the server
+            will only ever hand you your own data and that of friends you've accepted.
+            Administrative access is limited to the developer and protected by
+            multi-factor authentication.
+          </p>
+          <p>
+            No system is perfectly secure, and we can't promise absolute security. If a
+            breach ever affects your personal data, we'll notify you and the relevant
+            authorities as the law requires.
+          </p>
+        </section>
+
+        <section class="s" id="children">
+          <h2><span class="s-num">10</span>Children's privacy</h2>
+          <p>
+            Streaq isn't intended for children under 13, and we don't knowingly collect data
+            from them. Where local law sets a higher age for consent to data processing —
+            16 in parts of the EU, 18 in India — Streaq is intended for users at or above
+            that age, or for use with verifiable parental consent. If you believe a child
+            has given us personal data, email us and we'll delete it.
+          </p>
+        </section>
+
+        <section class="s" id="changes">
+          <h2><span class="s-num">11</span>Changes to this policy</h2>
+          <p>
+            We'll update this page when Streaq changes. The date at the top always reflects
+            the current version. If a change materially affects how we use your data, we'll
+            tell you in the app or by email before it takes effect, rather than quietly
+            editing this page.
+          </p>
+        </section>
+
+        <section class="s" id="contact">
+          <h2><span class="s-num">12</span>Contact</h2>
+          <p>
+            Questions, requests, or complaints about privacy — including account deletion —
+            go to:
+          </p>
+          <p class="contact-line">
+            <a href={`mailto:${CONTACT}`}>{CONTACT}</a>
+          </p>
+          <p>
+            Ankush Garg, individual developer and operator of Streaq, India. We aim to reply
+            within a few days, and within 30 days at the outside.
+          </p>
+        </section>
+      </main>
+
+      <footer class="foot">
+        <a class="home-link" href="/">Back to streaq.club</a>
+      </footer>
+    </div>
+  </body>
+</html>
+
+<style>
+  /* A reading column, not a hero — this page is prose first. The measure is
+     capped near 68ch so long paragraphs stay scannable on wide screens. */
+  .page {
+    position: relative;
+    min-height: 100vh;
+  }
+
+  .topbar {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px 60px;
+    /* Same measure + padding as `.doc` so the wordmark's left edge lines up
+       with the body column rather than floating off at the viewport edge. */
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .brand-link {
+    text-decoration: none;
+  }
+
+  .doc {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 24px 60px 0;
+  }
+
+  /* ── Masthead ── */
+  .doc-head {
+    padding-bottom: 44px;
+    border-bottom: 1px solid var(--surface-border);
+  }
+  .doc-eyebrow {
+    margin-bottom: 22px;
+  }
+  .h1 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 0.98;
+    font-size: clamp(44px, 7vw, 72px);
+    margin: 0;
+    color: var(--fg);
+    text-wrap: balance;
+  }
+  .h1 em {
+    font-style: italic;
+    font-weight: 500;
+  }
+  .lede {
+    font-size: clamp(16.5px, 1.6vw, 19px);
+    line-height: 1.6;
+    color: var(--sub);
+    margin: 24px 0 0;
+    text-wrap: pretty;
+  }
+  .updated {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mute);
+    margin: 28px 0 0;
+  }
+
+  /* ── Table of contents ── */
+  .toc {
+    margin: 40px 0 8px;
+    padding: 26px 28px;
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: 14px;
+  }
+  .toc ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2px 28px;
+  }
+  .toc a {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 6px 0;
+    text-decoration: none;
+    color: var(--sub);
+    font-size: 14.5px;
+    line-height: 1.4;
+    transition: color 160ms ease;
+  }
+  .toc a:hover {
+    color: var(--fg);
+  }
+  .toc-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--mute);
+    flex: none;
+  }
+  .toc a:hover .toc-title {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* ── Sections ── */
+  .s {
+    padding-top: 52px;
+    scroll-margin-top: 24px;
+  }
+  .s h2 {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.022em;
+    font-size: clamp(24px, 3vw, 30px);
+    line-height: 1.15;
+    color: var(--fg);
+    margin: 0 0 18px;
+  }
+  .s-num {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--mute);
+    flex: none;
+    transform: translateY(-2px);
+  }
+  .s h3 {
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 15.5px;
+    letter-spacing: 0.01em;
+    color: var(--fg);
+    margin: 30px 0 12px;
+  }
+  .s p {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--sub);
+    margin: 0 0 16px;
+    text-wrap: pretty;
+  }
+  .s ul {
+    margin: 0 0 16px;
+    padding: 0 0 0 20px;
+  }
+  .s li {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--sub);
+    margin-bottom: 10px;
+    padding-left: 4px;
+  }
+  .s li::marker {
+    color: var(--mute);
+  }
+  .s strong {
+    color: var(--fg);
+    font-weight: 600;
+  }
+  .s a {
+    color: var(--fg);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--field-border);
+    transition: text-decoration-color 160ms ease;
+  }
+  .s a:hover {
+    text-decoration-color: var(--fg);
+  }
+
+  /* Aside-style caveat — quieter than body copy, marked with a rule. */
+  .note {
+    border-left: 2px solid var(--field-border);
+    padding-left: 16px;
+    font-size: 15px !important;
+    color: var(--mute) !important;
+  }
+
+  .contact-line {
+    font-family: var(--font-mono);
+    font-size: 15px;
+  }
+
+  /* ── Processor table ── */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 0 0 18px;
+    border: 1px solid var(--surface-border);
+    border-radius: 12px;
+    background: var(--surface);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14.5px;
+    line-height: 1.55;
+  }
+  th {
+    text-align: left;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mute);
+    padding: 13px 18px;
+    border-bottom: 1px solid var(--surface-border);
+    white-space: nowrap;
+  }
+  td {
+    padding: 13px 18px;
+    color: var(--sub);
+    vertical-align: top;
+    border-bottom: 1px solid var(--surface-border);
+  }
+  tbody tr:last-child td {
+    border-bottom: 0;
+  }
+  td:first-child {
+    color: var(--fg);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  /* ── Footer ── */
+  .foot {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 64px 60px 60px;
+    border-top: 1px solid var(--surface-border);
+    margin-top: 64px;
+  }
+  .home-link {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--mute);
+    text-decoration: none;
+    border-bottom: 1px solid var(--field-border);
+    padding-bottom: 2px;
+    transition: color 160ms ease;
+  }
+  .home-link:hover {
+    color: var(--fg);
+  }
+
+  @media (max-width: 720px) {
+    .topbar {
+      padding: 14px 28px;
+    }
+    .doc {
+      padding: 18px 28px 0;
+    }
+    .doc-head {
+      padding-bottom: 34px;
+    }
+    .toc {
+      margin: 32px 0 0;
+      padding: 20px 20px;
+    }
+    .toc ol {
+      grid-template-columns: 1fr;
+    }
+    .s {
+      padding-top: 42px;
+    }
+    .foot {
+      padding: 44px 28px 48px;
+      margin-top: 48px;
+    }
+  }
+</style>
