@@ -3,13 +3,14 @@ import '../styles/tokens.css';
 import BrandLockup from '../components/BrandLockup.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
 import Eyebrow from '../components/Eyebrow.astro';
-import Signup from '../components/Signup.astro';
+import AppCta from '../components/AppCta.astro';
 import DotGrid from '../components/DotGrid.astro';
 
 // Two faithful layouts share these components; CSS shows one per breakpoint.
-const KICKER = 'Coming soon · Early access';
-const CTA = 'Request an invite';
-const NOTE = 'Beta opens soon';
+const APP_URL = 'https://app.streaq.club';
+const KICKER = 'Now available';
+const CTA = 'Open Streaq';
+const NOTE = 'Now live at app.streaq.club';
 ---
 
 <!doctype html>
@@ -20,7 +21,7 @@ const NOTE = 'Beta opens soon';
     <title>Streaq — Streaks worth keeping</title>
     <meta
       name="description"
-      content="Streaq — track your habits, share them with the friends who keep you honest, and watch the days stack up. Request an invite to the beta."
+      content="Streaq — track your habits, share them with the friends who keep you honest, and watch the days stack up. Open the app and start your streak."
     />
     <meta name="theme-color" content="#edeae3" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -32,7 +33,7 @@ const NOTE = 'Beta opens soon';
     <meta property="og:title" content="Streaq — Streaks worth keeping" />
     <meta
       property="og:description"
-      content="Track your habits, share them with the friends who keep you honest, and watch the days stack up. Request an invite to the beta."
+      content="Track your habits, share them with the friends who keep you honest, and watch the days stack up. Open the app and start your streak."
     />
     <meta property="og:url" content="https://streaq.club/" />
     <meta property="og:image" content="https://streaq.club/og.png" />
@@ -85,9 +86,9 @@ const NOTE = 'Beta opens soon';
         <h1 class="dt-h1">Streaks worth <em>keeping.</em></h1>
         <p class="dt-p">
           Track your habits, share them with the friends who keep you honest, and watch
-          the days stack up. Streaq opens to its first members soon.
+          the days stack up. Streaq is open to everyone — start your first streak today.
         </p>
-        <Signup cta={CTA} note={NOTE} />
+        <AppCta href={APP_URL} cta={CTA} note={NOTE} />
       </section>
 
       <div class="dt-band"><DotGrid rows={4} cols={17} dot={17} gap={14} /></div>
@@ -112,7 +113,7 @@ const NOTE = 'Beta opens soon';
         <div class="mb-motif"><DotGrid rows={4} cols={9} dot={20} gap={13} /></div>
       </section>
 
-      <div class="mb-signup"><Signup cta={CTA} note={NOTE} /></div>
+      <div class="mb-cta"><AppCta href={APP_URL} cta={CTA} note={NOTE} /></div>
     </main>
   </body>
 </html>
@@ -288,7 +289,7 @@ const NOTE = 'Beta opens soon';
     display: flex;
     justify-content: center;
   }
-  .mb-signup {
+  .mb-cta {
     position: relative;
   }
 </style>

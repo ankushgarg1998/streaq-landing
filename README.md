@@ -10,8 +10,8 @@
 you. Track your habits, share them with the people who keep you honest, and watch the
 days stack up.
 
-🌐 **[streaq.club](https://streaq.club)** — we're opening to our first members soon.
-[Request an invite](https://streaq.club) to get early access.
+🌐 **[streaq.club](https://streaq.club)** — Streaq is out and open to everyone.
+[Open the app](https://app.streaq.club) and start your first streak.
 
 ---
 

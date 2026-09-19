@@ -10,8 +10,7 @@ GitHub Pages at the custom domain **streaq.club**.
 ## Stack
 
 - **Astro** `^5.14` — static output, zero JS by default; the only client JS is a
-  few small inline `<script>` blocks (theme toggle, signup fetch, confirmed-page
-  personalization).
+  couple of small inline `<script>` blocks (theme toggle).
 - **pnpm** 10 · **Node 22** (`.nvmrc` = `lts/jod`; `engines.node` = `>=22 <23`).
 
 ## Commands
@@ -28,8 +27,8 @@ pnpm check    # astro check (type/diagnostics)
 
 - `src/pages/index.astro` — the landing page. Two layouts (`.layout-desktop`
   centered-editorial, `.layout-mobile` stacked) toggled at `@media (max-width: 720px)`.
-- `src/pages/confirmed.astro` — post-confirmation landing (see Kit below).
-- `src/components/` — `BrandLockup`, `ThemeToggle`, `Eyebrow`, `Signup`, `DotGrid`.
+- `src/pages/privacy.astro`, `src/pages/delete-account.astro` — policy pages.
+- `src/components/` — `BrandLockup`, `ThemeToggle`, `Eyebrow`, `AppCta`, `DotGrid`.
 - `src/styles/tokens.css` — design tokens for `:root` (light) and
   `[data-theme='dark']`.
 - `public/` — `CNAME`, `favicon.svg`, `og.png` (copied verbatim into `dist/`).
@@ -40,24 +39,19 @@ Theme is a `data-theme` attribute on `<html>` + CSS custom properties. An inline
 script in `<head>` sets it before paint (defaults to light) from
 `localStorage['streaq-theme']`; `ThemeToggle` flips it and persists.
 
-## Email waitlist (Kit / ConvertKit)
+## Call to action
 
-- `Signup.astro` POSTs to Kit's public, browser-safe endpoint
-  `https://app.convertkit.com/forms/{id}/subscriptions` with `{ email_address }`.
-  **No API key is used or shipped** — only the numeric **form id**, which is a
-  public identifier (it appears in the page HTML). Never commit a Kit API
-  key/secret.
-- Form id default `9503947`, lives in `Signup.astro`; override with
-  `PUBLIC_KIT_FORM_ID` (see `.env.example`).
-- The form uses **double opt-in**: submitting only sends a confirmation email;
-  the user must click its link to actually join. On-page copy reflects this
-  ("Almost there — check your inbox.").
-- **Post-confirmation redirect** (set in the Kit dashboard) →
-  `https://streaq.club/confirmed`.
-- Kit's "Send subscriber data to thank you page" appends `first_name`,
-  `email_address`, `id` to that URL. `confirmed.astro` reads them client-side
-  and personalizes the copy — rendered via `textContent` only (params are
-  user-controllable) and length-capped; falls back to generic copy when absent.
+Streaq is generally available. The single CTA (`AppCta.astro`) is a plain link to
+**https://app.streaq.club** — no form, no client JS, no third-party request. The
+app URL and the CTA/kicker/note strings live as consts at the top of
+`index.astro`.
+
+The pre-launch email waitlist (Kit / ConvertKit double opt-in, `Signup.astro`,
+`/confirmed`, `PUBLIC_KIT_FORM_ID`) was removed when the app went GA. Kit form
+`9503947` still holds the addresses collected then; its post-confirmation
+redirect pointed at `https://streaq.club/confirmed`, which no longer exists —
+repoint it (to `https://app.streaq.club`) or archive the form in the Kit
+dashboard. `privacy.astro` still describes that data in the past tense.
 
 ## Deploy — GitHub Pages
 

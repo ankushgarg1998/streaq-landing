@@ -1,0 +1,98 @@
+---
+// Primary call to action: a link straight into the app. Replaces the old
+// waitlist/invite email capture — Streaq is generally available, so there is
+// nothing to sign up for here. Inline on desktop; full-width inside
+// .layout-mobile.
+interface Props {
+  href?: string;
+  cta?: string;
+  note?: string;
+}
+const {
+  href = 'https://app.streaq.club',
+  cta = 'Open Streaq',
+  note = 'Now live at app.streaq.club',
+} = Astro.props;
+---
+
+<div class="cta">
+  <a class="cta-btn" href={href}>
+    {cta}
+    <svg
+      class="cta-arrow"
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.4"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <line x1="5" y1="12" x2="18" y2="12"></line>
+      <polyline points="12,6 18,12 12,18"></polyline>
+    </svg>
+  </a>
+  <div class="cta-note">{note}</div>
+</div>
+
+<style>
+  .cta {
+    max-width: 440px;
+    width: 100%;
+  }
+
+  /* ── desktop: inline pill button ── */
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--btn-bg);
+    color: var(--btn-fg);
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 16px;
+    padding: 17px 28px;
+    border-radius: 14px;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    text-decoration: none;
+    transition:
+      transform 160ms ease,
+      opacity 160ms ease;
+  }
+  .cta-btn:hover {
+    opacity: 0.88;
+  }
+  .cta-btn:hover .cta-arrow {
+    transform: translateX(2px);
+  }
+  .cta-arrow {
+    flex-shrink: 0;
+    transition: transform 160ms ease;
+  }
+  .cta-note {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--mute);
+    letter-spacing: 0.04em;
+    margin-top: 15px;
+    text-transform: uppercase;
+  }
+
+  /* ── mobile: full-width button, left-aligned note ── */
+  :global(.layout-mobile) .cta {
+    max-width: 100%;
+  }
+  :global(.layout-mobile) .cta-btn {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 18px 22px;
+    border-radius: 13px;
+  }
+  :global(.layout-mobile) .cta-note {
+    padding-left: 4px;
+  }
+</style>
