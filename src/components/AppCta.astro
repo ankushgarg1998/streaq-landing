@@ -7,11 +7,14 @@ interface Props {
   href?: string;
   cta?: string;
   note?: string;
+  noteUrl?: string;
 }
 const {
   href = 'https://app.streaq.club',
   cta = 'Open Streaq',
-  note = 'Now live at app.streaq.club',
+  note = 'Now live at',
+  // Rendered lowercase — a domain reads wrong in the note's uppercase mono.
+  noteUrl = 'app.streaq.club',
 } = Astro.props;
 ---
 
@@ -34,7 +37,7 @@ const {
       <polyline points="12,6 18,12 12,18"></polyline>
     </svg>
   </a>
-  <div class="cta-note">{note}</div>
+  <div class="cta-note">{note} <span class="cta-note-url">{noteUrl}</span></div>
 </div>
 
 <style>
@@ -79,6 +82,9 @@ const {
     letter-spacing: 0.04em;
     margin-top: 15px;
     text-transform: uppercase;
+  }
+  .cta-note-url {
+    text-transform: lowercase;
   }
 
   /* ── mobile: full-width button, left-aligned note ── */

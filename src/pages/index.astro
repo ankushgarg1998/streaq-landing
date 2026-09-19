@@ -10,7 +10,8 @@ import DotGrid from '../components/DotGrid.astro';
 const APP_URL = 'https://app.streaq.club';
 const KICKER = 'Now available';
 const CTA = 'Open Streaq';
-const NOTE = 'Now live at app.streaq.club';
+const NOTE = 'Now live at';
+const NOTE_URL = 'app.streaq.club';
 ---
 
 <!doctype html>
@@ -88,7 +89,7 @@ const NOTE = 'Now live at app.streaq.club';
           Track your habits, share them with the friends who keep you honest, and watch
           the days stack up. Streaq is open to everyone — start your first streak today.
         </p>
-        <AppCta href={APP_URL} cta={CTA} note={NOTE} />
+        <AppCta href={APP_URL} cta={CTA} note={NOTE} noteUrl={NOTE_URL} />
       </section>
 
       <div class="dt-band"><DotGrid rows={4} cols={17} dot={17} gap={14} /></div>
@@ -113,7 +114,7 @@ const NOTE = 'Now live at app.streaq.club';
         <div class="mb-motif"><DotGrid rows={4} cols={9} dot={20} gap={13} /></div>
       </section>
 
-      <div class="mb-cta"><AppCta href={APP_URL} cta={CTA} note={NOTE} /></div>
+      <div class="mb-cta"><AppCta href={APP_URL} cta={CTA} note={NOTE} noteUrl={NOTE_URL} /></div>
     </main>
   </body>
 </html>
