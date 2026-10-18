@@ -49,11 +49,18 @@ links — no form, no client JS, no third-party request:
 - **secondary** (ghost button) — the web app, `https://app.streaq.club`.
 
 Both URLs and the CTA/kicker/note strings live as consts at the top of
-`index.astro`. The Play mark on the primary button is **inline SVG** (four flat
-brand-coloured paths), not Google's hosted badge image: it keeps the page free of
-third-party requests and sits on a button that flips with the theme. If you'd
-rather ship Google's official badge, download it into `public/` — don't hotlink
-it — and note it won't theme.
+`index.astro`.
+
+The primary CTA is Google's **official badge**, `public/google-play-badge.png`
+(the `en_badge_web_generic` artwork, 646×250), served from our own origin rather
+than hotlinked from play.google.com. Per Google's brand guidelines it is used
+unmodified: the PNG's 41px transparent border on each side is the required clear
+space, so never crop it or paint a background onto it, and scale it by height
+only. The artwork is black with a #A6A6A6 outline, which reads on both the cream
+and the ink page, so it needs no theming. The visible button is 66.8% of the
+rendered height — `height: 84px` matches the ghost button's 56px, and the row's
+2px gap is small because the badge brings its own ~14px of side clear space.
+The `alt` text must stay "Get it on Google Play".
 
 There is no iOS build yet; when there is, add a third link rather than replacing
 the Play one.

@@ -2,8 +2,8 @@
 // Primary call to action. Streaq is generally available on two surfaces, so
 // this is a pair of links, not a form: the Android app on Google Play (primary)
 // and the web app (secondary ghost button). No client JS, no third-party
-// request — the Play mark is inline SVG rather than Google's hosted badge, so
-// it themes with the page and costs nothing to load.
+// request — the Play badge is Google's official artwork, served from public/
+// rather than hotlinked from play.google.com.
 // Inline row on desktop; stacked full-width inside .layout-mobile.
 interface Props {
   playHref?: string;
@@ -23,21 +23,11 @@ const {
 
 <div class="cta">
   <div class="cta-row">
-    <a class="cta-btn cta-btn--primary" href={playHref}>
-      <!-- Google Play mark: left wing blue, top green, bottom amber, tip red. -->
-      <svg
-        class="cta-play"
-        width="17"
-        height="17"
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-      >
-        <path d="M4 2 13.2 12 4 22Z" fill="#00A0FF"></path>
-        <path d="M4 2 17.6 7.4 13.2 12Z" fill="#00E676"></path>
-        <path d="M4 22 13.2 12 17.6 16.6Z" fill="#FFCE00"></path>
-        <path d="M17.6 7.4 21.4 12 17.6 16.6 13.2 12Z" fill="#FF3A44"></path>
-      </svg>
-      {playCta}
+    <!-- Google's official badge, unmodified. The PNG's transparent border is
+         the required clear space, so it is never cropped; the artwork is black
+         with a white outline, which reads on both the cream and ink pages. -->
+    <a class="cta-badge" href={playHref}>
+      <img src="/google-play-badge.png" alt={playCta} width="646" height="250" />
     </a>
 
     <a class="cta-btn cta-btn--ghost" href={webHref}>
@@ -72,8 +62,9 @@ const {
   .cta-row {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     justify-content: center;
-    gap: 12px;
+    gap: 2px;
   }
   .cta-btn {
     display: inline-flex;
@@ -93,12 +84,22 @@ const {
       border-color 160ms ease,
       color 160ms ease;
   }
-  .cta-btn--primary {
-    background: var(--btn-bg);
-    color: var(--btn-fg);
+  /* Play badge: the PNG is 646x250 with 41px of transparent clear space on
+     every side, so the artwork is 66.8% of the rendered height — 84px here
+     puts it at the ghost button's 56px. Height only, so the ratio is kept. */
+  .cta-badge {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    transition: opacity 160ms ease;
   }
-  .cta-btn--primary:hover {
+  .cta-badge:hover {
     opacity: 0.88;
+  }
+  .cta-badge img {
+    display: block;
+    height: 84px;
+    width: auto;
   }
   .cta-btn--ghost {
     background: transparent;
@@ -112,11 +113,8 @@ const {
   .cta-btn--ghost:hover .cta-arrow {
     transform: translateX(2px);
   }
-  .cta-play,
   .cta-arrow {
     flex-shrink: 0;
-  }
-  .cta-arrow {
     transition: transform 160ms ease;
   }
   .cta-note {
@@ -135,7 +133,8 @@ const {
   }
   :global(.layout-mobile) .cta-row {
     flex-direction: column;
-    gap: 10px;
+    align-items: stretch;
+    gap: 4px;
   }
   :global(.layout-mobile) .cta-btn {
     display: flex;
@@ -143,6 +142,12 @@ const {
     width: 100%;
     padding: 18px 22px;
     border-radius: 13px;
+  }
+  :global(.layout-mobile) .cta-badge {
+    justify-content: center;
+  }
+  :global(.layout-mobile) .cta-badge img {
+    height: 90px;
   }
   :global(.layout-mobile) .cta-note {
     text-align: left;
