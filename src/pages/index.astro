@@ -7,11 +7,12 @@ import AppCta from '../components/AppCta.astro';
 import DotGrid from '../components/DotGrid.astro';
 
 // Two faithful layouts share these components; CSS shows one per breakpoint.
+const PLAY_URL = 'https://play.google.com/store/apps/details?id=club.streaq.app';
 const APP_URL = 'https://app.streaq.club';
-const KICKER = 'Now available';
-const CTA = 'Open Streaq';
-const NOTE = 'Now live at';
-const NOTE_URL = 'app.streaq.club';
+const KICKER = 'Now on Android';
+const PLAY_CTA = 'Get it on Google Play';
+const WEB_CTA = 'Open in your browser';
+const NOTE = 'Same streaks on your phone and in your browser';
 ---
 
 <!doctype html>
@@ -22,7 +23,7 @@ const NOTE_URL = 'app.streaq.club';
     <title>Streaq — Streaks worth keeping</title>
     <meta
       name="description"
-      content="Streaq — track your habits, share them with the friends who keep you honest, and watch the days stack up. Open the app and start your streak."
+      content="Streaq — track your habits, share them with the friends who keep you honest, and watch the days stack up. Get the Android app on Google Play, or use Streaq in your browser."
     />
     <meta name="theme-color" content="#edeae3" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -34,7 +35,7 @@ const NOTE_URL = 'app.streaq.club';
     <meta property="og:title" content="Streaq — Streaks worth keeping" />
     <meta
       property="og:description"
-      content="Track your habits, share them with the friends who keep you honest, and watch the days stack up. Open the app and start your streak."
+      content="Track your habits, share them with the friends who keep you honest, and watch the days stack up. Now on Google Play, and on the web."
     />
     <meta property="og:url" content="https://streaq.club/" />
     <meta property="og:image" content="https://streaq.club/og.png" />
@@ -45,7 +46,7 @@ const NOTE_URL = 'app.streaq.club';
     <meta name="twitter:title" content="Streaq — Streaks worth keeping" />
     <meta
       name="twitter:description"
-      content="Track your habits, share them with the friends who keep you honest, and watch the days stack up."
+      content="Track your habits, share them with the friends who keep you honest, and watch the days stack up. Now on Google Play."
     />
     <meta name="twitter:image" content="https://streaq.club/og.png" />
 
@@ -87,9 +88,16 @@ const NOTE_URL = 'app.streaq.club';
         <h1 class="dt-h1">Streaks worth <em>keeping.</em></h1>
         <p class="dt-p">
           Track your habits, share them with the friends who keep you honest, and watch
-          the days stack up. Streaq is open to everyone — start your first streak today.
+          the days stack up. The Android app is live on Google Play — or start your first
+          streak right in your browser.
         </p>
-        <AppCta href={APP_URL} cta={CTA} note={NOTE} noteUrl={NOTE_URL} />
+        <AppCta
+          playHref={PLAY_URL}
+          playCta={PLAY_CTA}
+          webHref={APP_URL}
+          webCta={WEB_CTA}
+          note={NOTE}
+        />
       </section>
 
       <div class="dt-band"><DotGrid rows={4} cols={17} dot={17} gap={14} /></div>
@@ -109,12 +117,20 @@ const NOTE_URL = 'app.streaq.club';
         <h1 class="mb-h1">Streaks worth <em>keeping.</em></h1>
         <p class="mb-p">
           Track your habits, share them with the friends who keep you honest, and watch
-          the days stack up.
+          the days stack up. Now on Google Play.
         </p>
         <div class="mb-motif"><DotGrid rows={4} cols={9} dot={20} gap={13} /></div>
       </section>
 
-      <div class="mb-cta"><AppCta href={APP_URL} cta={CTA} note={NOTE} noteUrl={NOTE_URL} /></div>
+      <div class="mb-cta">
+        <AppCta
+          playHref={PLAY_URL}
+          playCta={PLAY_CTA}
+          webHref={APP_URL}
+          webCta={WEB_CTA}
+          note={NOTE}
+        />
+      </div>
     </main>
   </body>
 </html>

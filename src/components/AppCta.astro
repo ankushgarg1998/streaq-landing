@@ -1,58 +1,84 @@
 ---
-// Primary call to action: a link straight into the app. Replaces the old
-// waitlist/invite email capture — Streaq is generally available, so there is
-// nothing to sign up for here. Inline on desktop; full-width inside
-// .layout-mobile.
+// Primary call to action. Streaq is generally available on two surfaces, so
+// this is a pair of links, not a form: the Android app on Google Play (primary)
+// and the web app (secondary ghost button). No client JS, no third-party
+// request — the Play mark is inline SVG rather than Google's hosted badge, so
+// it themes with the page and costs nothing to load.
+// Inline row on desktop; stacked full-width inside .layout-mobile.
 interface Props {
-  href?: string;
-  cta?: string;
+  playHref?: string;
+  playCta?: string;
+  webHref?: string;
+  webCta?: string;
   note?: string;
-  noteUrl?: string;
 }
 const {
-  href = 'https://app.streaq.club',
-  cta = 'Open Streaq',
-  note = 'Now live at',
-  // Rendered lowercase — a domain reads wrong in the note's uppercase mono.
-  noteUrl = 'app.streaq.club',
+  playHref = 'https://play.google.com/store/apps/details?id=club.streaq.app',
+  playCta = 'Get it on Google Play',
+  webHref = 'https://app.streaq.club',
+  webCta = 'Open in your browser',
+  note = 'Same streaks on your phone and in your browser',
 } = Astro.props;
 ---
 
 <div class="cta">
-  <a class="cta-btn" href={href}>
-    {cta}
-    <svg
-      class="cta-arrow"
-      width="15"
-      height="15"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2.4"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      aria-hidden="true"
-    >
-      <line x1="5" y1="12" x2="18" y2="12"></line>
-      <polyline points="12,6 18,12 12,18"></polyline>
-    </svg>
-  </a>
-  <div class="cta-note">{note} <span class="cta-note-url">{noteUrl}</span></div>
+  <div class="cta-row">
+    <a class="cta-btn cta-btn--primary" href={playHref}>
+      <!-- Google Play mark: left wing blue, top green, bottom amber, tip red. -->
+      <svg
+        class="cta-play"
+        width="17"
+        height="17"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path d="M4 2 13.2 12 4 22Z" fill="#00A0FF"></path>
+        <path d="M4 2 17.6 7.4 13.2 12Z" fill="#00E676"></path>
+        <path d="M4 22 13.2 12 17.6 16.6Z" fill="#FFCE00"></path>
+        <path d="M17.6 7.4 21.4 12 17.6 16.6 13.2 12Z" fill="#FF3A44"></path>
+      </svg>
+      {playCta}
+    </a>
+
+    <a class="cta-btn cta-btn--ghost" href={webHref}>
+      {webCta}
+      <svg
+        class="cta-arrow"
+        width="15"
+        height="15"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.4"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <line x1="5" y1="12" x2="18" y2="12"></line>
+        <polyline points="12,6 18,12 12,18"></polyline>
+      </svg>
+    </a>
+  </div>
+  <div class="cta-note">{note}</div>
 </div>
 
 <style>
   .cta {
-    max-width: 440px;
+    max-width: 560px;
     width: 100%;
   }
 
-  /* ── desktop: inline pill button ── */
+  /* ── desktop: two inline pills, centered under the hero ── */
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
   .cta-btn {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    background: var(--btn-bg);
-    color: var(--btn-fg);
     font-family: var(--font-ui);
     font-weight: 600;
     font-size: 16px;
@@ -61,18 +87,36 @@ const {
     letter-spacing: -0.01em;
     white-space: nowrap;
     text-decoration: none;
+    border: 1px solid transparent;
     transition:
-      transform 160ms ease,
-      opacity 160ms ease;
+      opacity 160ms ease,
+      border-color 160ms ease,
+      color 160ms ease;
   }
-  .cta-btn:hover {
+  .cta-btn--primary {
+    background: var(--btn-bg);
+    color: var(--btn-fg);
+  }
+  .cta-btn--primary:hover {
     opacity: 0.88;
   }
-  .cta-btn:hover .cta-arrow {
+  .cta-btn--ghost {
+    background: transparent;
+    color: var(--sub);
+    border-color: var(--field-border);
+  }
+  .cta-btn--ghost:hover {
+    color: var(--fg);
+    border-color: var(--fg);
+  }
+  .cta-btn--ghost:hover .cta-arrow {
     transform: translateX(2px);
   }
+  .cta-play,
   .cta-arrow {
     flex-shrink: 0;
+  }
+  .cta-arrow {
     transition: transform 160ms ease;
   }
   .cta-note {
@@ -80,16 +124,18 @@ const {
     font-size: 11.5px;
     color: var(--mute);
     letter-spacing: 0.04em;
-    margin-top: 15px;
+    margin-top: 18px;
     text-transform: uppercase;
-  }
-  .cta-note-url {
-    text-transform: lowercase;
+    text-align: center;
   }
 
-  /* ── mobile: full-width button, left-aligned note ── */
+  /* ── mobile: stacked full-width buttons, left-aligned note ── */
   :global(.layout-mobile) .cta {
     max-width: 100%;
+  }
+  :global(.layout-mobile) .cta-row {
+    flex-direction: column;
+    gap: 10px;
   }
   :global(.layout-mobile) .cta-btn {
     display: flex;
@@ -99,6 +145,8 @@ const {
     border-radius: 13px;
   }
   :global(.layout-mobile) .cta-note {
+    text-align: left;
     padding-left: 4px;
+    margin-top: 15px;
   }
 </style>

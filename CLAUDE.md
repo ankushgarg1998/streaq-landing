@@ -41,10 +41,22 @@ script in `<head>` sets it before paint (defaults to light) from
 
 ## Call to action
 
-Streaq is generally available. The single CTA (`AppCta.astro`) is a plain link to
-**https://app.streaq.club** — no form, no client JS, no third-party request. The
-app URL and the CTA/kicker/note strings live as consts at the top of
-`index.astro`.
+Streaq is generally available on two surfaces, so `AppCta.astro` renders two plain
+links — no form, no client JS, no third-party request:
+
+- **primary** — the Android app, `https://play.google.com/store/apps/details?id=club.streaq.app`
+  (listing name "Streaq - Habit Tracker");
+- **secondary** (ghost button) — the web app, `https://app.streaq.club`.
+
+Both URLs and the CTA/kicker/note strings live as consts at the top of
+`index.astro`. The Play mark on the primary button is **inline SVG** (four flat
+brand-coloured paths), not Google's hosted badge image: it keeps the page free of
+third-party requests and sits on a button that flips with the theme. If you'd
+rather ship Google's official badge, download it into `public/` — don't hotlink
+it — and note it won't theme.
+
+There is no iOS build yet; when there is, add a third link rather than replacing
+the Play one.
 
 The pre-launch email waitlist (Kit / ConvertKit double opt-in, `Signup.astro`,
 `/confirmed`, `PUBLIC_KIT_FORM_ID`) was removed when the app went GA. Kit form

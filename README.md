@@ -11,7 +11,8 @@ you. Track your habits, share them with the people who keep you honest, and watc
 days stack up.
 
 🌐 **[streaq.club](https://streaq.club)** — Streaq is out and open to everyone.
-[Open the app](https://app.streaq.club) and start your first streak.
+📱 **[Get it on Google Play](https://play.google.com/store/apps/details?id=club.streaq.app)**,
+or [open the web app](https://app.streaq.club) and start your first streak.
 
 ---
 
