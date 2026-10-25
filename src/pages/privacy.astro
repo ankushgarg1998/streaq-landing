@@ -1,12 +1,12 @@
 ---
 import '../styles/tokens.css';
-import BrandLockup from '../components/BrandLockup.astro';
-import ThemeToggle from '../components/ThemeToggle.astro';
+import BaseHead from '../components/BaseHead.astro';
+import SiteHeader from '../components/SiteHeader.astro';
 import Eyebrow from '../components/Eyebrow.astro';
 
 // Privacy policy for the Streaq app (app.streaq.club + the iOS/Android builds)
 // and this marketing site. Google Play requires a publicly reachable privacy
-// policy URL for the store listing — this page is that URL, and it must stay
+// policy URL for the store listing; this page is that URL, and it must stay
 // reachable and in sync with the Play "Data safety" declarations.
 //
 // Keep the facts here true to the code:
@@ -41,46 +41,16 @@ const sections = [
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Privacy Policy — Streaq</title>
-    <meta
-      name="description"
-      content="How Streaq collects, uses, shares, and deletes your data — plainly, and in full."
+    <BaseHead
+      title="Streaq Privacy Policy"
+      description="How Streaq collects, uses, shares, and deletes your data, plainly and in full."
+      path="/privacy"
     />
-    <meta name="theme-color" content="#edeae3" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="canonical" href="https://streaq.club/privacy" />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- Set the theme before paint to avoid a flash. Defaults to light. -->
-    <script is:inline>
-      (function () {
-        try {
-          var t = localStorage.getItem('streaq-theme');
-          document.documentElement.setAttribute(
-            'data-theme',
-            t === 'dark' ? 'dark' : 'light',
-          );
-        } catch (e) {
-          document.documentElement.setAttribute('data-theme', 'light');
-        }
-      })();
-    </script>
   </head>
 
   <body>
     <div class="page">
-      <header class="topbar">
-        <a class="brand-link" href="/" aria-label="Streaq home"><BrandLockup size={30} /></a>
-        <ThemeToggle />
-      </header>
+      <SiteHeader />
 
       <main class="doc">
         <div class="doc-head">
@@ -115,13 +85,13 @@ const sections = [
           <p>
             Streaq is built and operated by Ankush Garg, an individual developer based in
             India. For the purposes of data-protection law, that's the person responsible
-            for your data — the "data controller" or "data fiduciary," depending on which
-            law applies to you.
+            for your data (the "data controller" or "data fiduciary," depending on which
+            law applies to you).
           </p>
           <p>
-            This policy covers the Streaq app — the web app at <a
+            This policy covers the Streaq app (the web app at <a
               href="https://app.streaq.club">app.streaq.club</a
-            > and the iOS and Android apps — and this marketing site at streaq.club. Where
+            > and the iOS and Android apps) and this marketing site at streaq.club. Where
             something applies to only one of those, it says so.
           </p>
         </section>
@@ -137,7 +107,7 @@ const sections = [
           <h3>Account information</h3>
           <ul>
             <li>
-              <strong>Your email address</strong> — how you sign in, how friends find you,
+              <strong>Your email address</strong>: how you sign in, how friends find you,
               and where we send account and friend-request emails.
             </li>
             <li>
@@ -146,7 +116,7 @@ const sections = [
             </li>
             <li>
               <strong>A password</strong>, if you sign up with one. It's handled by our
-              authentication provider and stored only as a salted hash — we never see or
+              authentication provider and stored only as a salted hash. We never see or
               store the password itself.
             </li>
             <li>
@@ -160,11 +130,11 @@ const sections = [
           <h3>Your habit data</h3>
           <ul>
             <li>
-              <strong>The habits you create</strong> — the name, an optional description, an
+              <strong>The habits you create</strong>: the name, an optional description, an
               icon or emoji, a colour, and the schedule you set.
             </li>
             <li>
-              <strong>Your check-ins</strong> — which habit you completed, which day it
+              <strong>Your check-ins</strong>: which habit you completed, which day it
               counted for, and when you marked it.
             </li>
           </ul>
@@ -177,7 +147,7 @@ const sections = [
           <h3>Your friends</h3>
           <ul>
             <li>
-              <strong>Friend connections</strong> — who you've sent a request to, who sent
+              <strong>Friend connections</strong>: who you've sent a request to, who sent
               you one, which are accepted, and when.
             </li>
             <li>
@@ -193,12 +163,12 @@ const sections = [
             <li>
               <strong>Crash and error reports</strong>, collected through Sentry when
               something goes wrong. These include the error, the app version, and general
-              device and browser information — the kind of thing needed to reproduce a bug.
+              device and browser information, the kind of thing needed to reproduce a bug.
             </li>
             <li>
               <strong>A masked replay of the moments before an error.</strong> Sentry's
               session replay is configured to record <em>only</em> when an error fires, and
-              to mask all text and all form inputs before anything leaves your device — so
+              to mask all text and all form inputs before anything leaves your device, so
               we see the shape of what happened, not your habit names or what you typed. We
               have also disabled Sentry's automatic collection of personal information such
               as IP addresses.
@@ -210,7 +180,7 @@ const sections = [
             <li>
               <strong>Your email address</strong>, sent to Kit (ConvertKit), our email
               provider, and used only to email you about Streaq's launch. That waitlist is
-              now closed — Streaq is generally available and this site no longer collects
+              now closed. Streaq is generally available and this site no longer collects
               email addresses. Addresses collected while it was open are still held by Kit;
               every email has an unsubscribe link.
             </li>
@@ -235,7 +205,7 @@ const sections = [
               let you add friends, and show you and your friends each other's progress;
             </li>
             <li>
-              send you transactional email — confirming your address, resetting your
+              send you transactional email: confirming your address, resetting your
               password, and telling you when someone sends or accepts a friend request;
             </li>
             <li>find, diagnose, and fix crashes and bugs;</li>
@@ -252,7 +222,7 @@ const sections = [
             <strong>performance of a contract</strong> for everything needed to run your
             account and sync your habits, on <strong>legitimate interests</strong> for
             security and crash diagnostics, and on <strong>consent</strong> for the pre-launch
-            waitlist email — which you can withdraw at any time by unsubscribing.
+            waitlist email, which you can withdraw at any time by unsubscribing.
           </p>
         </section>
 
@@ -267,7 +237,7 @@ const sections = [
               >Once you accept a friend request, that friend can see all of your habits and
               your check-in history for them</strong
             >, along with your display name and avatar. There is no per-habit privacy
-            setting in this version of Streaq — a habit is either something you track in
+            setting in this version of Streaq. A habit is either something you track in
             Streaq, and therefore visible to your accepted friends, or something you don't
             track here. That's the point of the app: the friends keep you honest.
           </p>
@@ -302,7 +272,7 @@ const sections = [
                 <tr>
                   <td>Supabase</td>
                   <td>
-                    Our database and authentication — accounts, habits, check-ins, and
+                    Our database and authentication: accounts, habits, check-ins, and
                     friendships.
                   </td>
                 </tr>
@@ -352,8 +322,8 @@ const sections = [
             </table>
           </div>
           <p>
-            Beyond that, we may disclose information if we're legally required to — a valid
-            court order or lawful government request — or where it's necessary to protect
+            Beyond that, we may disclose information if we're legally required to (a valid
+            court order or lawful government request) or where it's necessary to protect
             our rights or someone's safety. If Streaq is ever acquired or transferred, your
             data may move with it; we'd tell you before that happened, and this policy would
             keep applying until we told you otherwise.
@@ -405,7 +375,7 @@ const sections = [
             for asking.
           </p>
           <p>
-            If you think we've mishandled your data, please tell us first — but you also
+            If you think we've mishandled your data, please tell us first, but you also
             have the right to complain to your local data-protection authority, or to
             India's Data Protection Board.
           </p>
@@ -420,8 +390,8 @@ const sections = [
             lists exactly what's removed and what's retained.
           </p>
           <p>
-            We'll confirm, then delete your account and the personal data attached to it —
-            your profile, your habits, your check-ins, and your friend connections — within
+            We'll confirm, then delete your account and the personal data attached to it
+            (your profile, your habits, your check-ins, and your friend connections) within
             30 days. Backups roll off within a further 30 days. We keep nothing afterwards
             except anything a law requires us to retain.
           </p>
@@ -453,8 +423,8 @@ const sections = [
           <h2><span class="s-num">10</span>Children's privacy</h2>
           <p>
             Streaq isn't intended for children under 13, and we don't knowingly collect data
-            from them. Where local law sets a higher age for consent to data processing —
-            16 in parts of the EU, 18 in India — Streaq is intended for users at or above
+            from them. Where local law sets a higher age for consent to data processing
+            (16 in parts of the EU, 18 in India), Streaq is intended for users at or above
             that age, or for use with verifiable parental consent. If you believe a child
             has given us personal data, email us and we'll delete it.
           </p>
@@ -473,7 +443,7 @@ const sections = [
         <section class="s" id="contact">
           <h2><span class="s-num">12</span>Contact</h2>
           <p>
-            Questions, requests, or complaints about privacy — including account deletion —
+            Questions, requests, or complaints about privacy, including account deletion,
             go to:
           </p>
           <p class="contact-line">
@@ -494,26 +464,11 @@ const sections = [
 </html>
 
 <style>
-  /* A reading column, not a hero — this page is prose first. The measure is
+  /* A reading column, not a hero: this page is prose first. The measure is
      capped near 68ch so long paragraphs stay scannable on wide screens. */
   .page {
     position: relative;
     min-height: 100vh;
-  }
-
-  .topbar {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 40px 60px;
-    /* Same measure + padding as `.doc` so the wordmark's left edge lines up
-       with the body column rather than floating off at the viewport edge. */
-    max-width: 720px;
-    margin: 0 auto;
-  }
-  .brand-link {
-    text-decoration: none;
   }
 
   .doc {
@@ -672,7 +627,7 @@ const sections = [
     text-decoration-color: var(--fg);
   }
 
-  /* Aside-style caveat — quieter than body copy, marked with a rule. */
+  /* Aside-style caveat: quieter than body copy, marked with a rule. */
   .note {
     border-left: 2px solid var(--field-border);
     padding-left: 16px;
@@ -750,9 +705,6 @@ const sections = [
   }
 
   @media (max-width: 720px) {
-    .topbar {
-      padding: 14px 28px;
-    }
     .doc {
       padding: 18px 28px 0;
     }

@@ -5,75 +5,30 @@ import ThemeToggle from '../components/ThemeToggle.astro';
 import Eyebrow from '../components/Eyebrow.astro';
 import AppCta from '../components/AppCta.astro';
 import DotGrid from '../components/DotGrid.astro';
+import BaseHead from '../components/BaseHead.astro';
+import SiteFooter from '../components/SiteFooter.astro';
 
 // Two faithful layouts share these components; CSS shows one per breakpoint.
 const PLAY_URL = 'https://play.google.com/store/apps/details?id=club.streaq.app';
 const APP_URL = 'https://app.streaq.club';
 const KICKER = 'Now on Android';
 const PLAY_CTA = 'Get it on Google Play';
-const WEB_CTA = 'Open in your browser';
-const NOTE = 'Same streaks on your phone and in your browser';
+const WEB_CTA = 'Open in browser';
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Streaq — Streaks worth keeping</title>
-    <meta
-      name="description"
-      content="Streaq — track your habits, share them with the friends who keep you honest, and watch the days stack up. Get the Android app on Google Play, or use Streaq in your browser."
+    <BaseHead
+      title="Streaq: Streaks worth keeping"
+      description="Track your habits on Streaq, share them with the friends who keep you honest, and watch the days stack up. Get the Android app on Google Play, or use Streaq in your browser."
+      previewDescription="Track your habits, share them with the friends who keep you honest, and watch the days stack up. Now on Google Play, and on the web."
+      path="/"
     />
-    <meta name="theme-color" content="#edeae3" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="canonical" href="https://streaq.club/" />
-
-    <!-- Open Graph / Twitter link previews. og:image must be an absolute URL. -->
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Streaq" />
-    <meta property="og:title" content="Streaq — Streaks worth keeping" />
-    <meta
-      property="og:description"
-      content="Track your habits, share them with the friends who keep you honest, and watch the days stack up. Now on Google Play, and on the web."
-    />
-    <meta property="og:url" content="https://streaq.club/" />
-    <meta property="og:image" content="https://streaq.club/og.png" />
-    <meta property="og:image:width" content="2400" />
-    <meta property="og:image:height" content="1260" />
-    <meta property="og:image:alt" content="Streaq — streaks worth keeping" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Streaq — Streaks worth keeping" />
-    <meta
-      name="twitter:description"
-      content="Track your habits, share them with the friends who keep you honest, and watch the days stack up. Now on Google Play."
-    />
-    <meta name="twitter:image" content="https://streaq.club/og.png" />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- Set the theme before paint to avoid a flash. Defaults to light. -->
-    <script is:inline>
-      (function () {
-        try {
-          var t = localStorage.getItem('streaq-theme');
-          document.documentElement.setAttribute(
-            'data-theme',
-            t === 'dark' ? 'dark' : 'light',
-          );
-        } catch (e) {
-          document.documentElement.setAttribute('data-theme', 'light');
-        }
-      })();
-    </script>
   </head>
 
   <body>
+    <div class="screen">
     <!-- ── Desktop · centered editorial ── -->
     <main class="layout-desktop">
       <div class="dt-glow" aria-hidden="true"></div>
@@ -88,7 +43,7 @@ const NOTE = 'Same streaks on your phone and in your browser';
         <h1 class="dt-h1">Streaks worth <em>keeping.</em></h1>
         <p class="dt-p">
           Track your habits, share them with the friends who keep you honest, and watch
-          the days stack up. The Android app is live on Google Play — or start your first
+          the days stack up. The Android app is live on Google Play, or start your first
           streak right in your browser.
         </p>
         <AppCta
@@ -96,7 +51,6 @@ const NOTE = 'Same streaks on your phone and in your browser';
           playCta={PLAY_CTA}
           webHref={APP_URL}
           webCta={WEB_CTA}
-          note={NOTE}
         />
       </section>
 
@@ -128,10 +82,12 @@ const NOTE = 'Same streaks on your phone and in your browser';
           playCta={PLAY_CTA}
           webHref={APP_URL}
           webCta={WEB_CTA}
-          note={NOTE}
         />
       </div>
     </main>
+
+    <SiteFooter />
+    </div>
   </body>
 </html>
 
@@ -152,10 +108,19 @@ const NOTE = 'Same streaks on your phone and in your browser';
     }
   }
 
+  /* Hero and footer together fill exactly one screen: the hero takes
+     whatever height the footer leaves. */
+  .screen {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
   /* ── desktop ── */
   .layout-desktop {
     position: relative;
-    min-height: 100vh;
+    flex: 1;
     overflow: hidden;
   }
   .dt-glow {
@@ -178,7 +143,7 @@ const NOTE = 'Same streaks on your phone and in your browser';
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 40px 60px;
+    padding: clamp(24px, 4vh, 40px) 60px;
   }
   .dt-center {
     position: relative;
@@ -187,7 +152,7 @@ const NOTE = 'Same streaks on your phone and in your browser';
     align-items: center;
     text-align: center;
     padding: 0 56px;
-    margin-top: 70px;
+    margin-top: clamp(16px, 6vh, 70px);
   }
   .dt-eyebrow {
     margin-bottom: 28px;
@@ -240,7 +205,7 @@ const NOTE = 'Same streaks on your phone and in your browser';
     }
     .dt-band {
       position: static;
-      padding: 56px 0 50px;
+      padding: clamp(24px, 5vh, 56px) 0 clamp(24px, 4vh, 50px);
     }
   }
 
@@ -248,7 +213,7 @@ const NOTE = 'Same streaks on your phone and in your browser';
   .layout-mobile {
     position: relative;
     flex-direction: column;
-    min-height: 100vh;
+    flex: 1;
     padding: 14px 28px 28px;
     overflow: hidden;
   }

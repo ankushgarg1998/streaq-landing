@@ -1,7 +1,7 @@
 ---
 import '../styles/tokens.css';
-import BrandLockup from '../components/BrandLockup.astro';
-import ThemeToggle from '../components/ThemeToggle.astro';
+import BaseHead from '../components/BaseHead.astro';
+import SiteHeader from '../components/SiteHeader.astro';
 import Eyebrow from '../components/Eyebrow.astro';
 
 // The "Delete account URL" submitted in the Google Play Console → Data safety
@@ -9,7 +9,7 @@ import Eyebrow from '../components/Eyebrow.astro';
 //   1. refer to the app or developer name shown on the store listing
 //   2. prominently feature the steps to request account deletion
 //   3. specify the types of data deleted or kept, and any retention period
-// All three are load-bearing for review — don't bury them behind a link or
+// All three are load-bearing for review: don't bury them behind a link or
 // reword them into vagueness. Deletion is honored manually today (there is no
 // DELETE /account endpoint yet), so the steps describe the email route.
 //
@@ -22,46 +22,16 @@ const UPDATED = 'August 27, 2026';
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Delete your Streaq account</title>
-    <meta
-      name="description"
-      content="How to request deletion of your Streaq account and all associated data."
+    <BaseHead
+      title="Delete your Streaq account"
+      description="How to request deletion of your Streaq account and all associated data."
+      path="/delete-account"
     />
-    <meta name="theme-color" content="#edeae3" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="canonical" href="https://streaq.club/delete-account" />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- Set the theme before paint to avoid a flash. Defaults to light. -->
-    <script is:inline>
-      (function () {
-        try {
-          var t = localStorage.getItem('streaq-theme');
-          document.documentElement.setAttribute(
-            'data-theme',
-            t === 'dark' ? 'dark' : 'light',
-          );
-        } catch (e) {
-          document.documentElement.setAttribute('data-theme', 'light');
-        }
-      })();
-    </script>
   </head>
 
   <body>
     <div class="page">
-      <header class="topbar">
-        <a class="brand-link" href="/" aria-label="Streaq home"><BrandLockup size={30} /></a>
-        <ThemeToggle />
-      </header>
+      <SiteHeader />
 
       <main class="doc">
         <div class="doc-head">
@@ -91,7 +61,7 @@ const UPDATED = 'August 27, 2026';
               <div>
                 <strong>Use the subject line “Delete my account.”</strong> You don't need to
                 explain why. If you can't email from your account address, write from any
-                address and say which account you mean — we'll verify another way before
+                address and say which account you mean. We'll verify another way before
                 deleting anything.
               </div>
             </li>
@@ -134,22 +104,22 @@ const UPDATED = 'August 27, 2026';
           <h2>What is kept, and for how long</h2>
           <ul>
             <li>
-              <strong>Encrypted backups</strong> — deleted data can persist in routine
+              <strong>Encrypted backups</strong>: deleted data can persist in routine
               database backups for up to <strong>30 further days</strong> (60 days from your
               request in total), after which those backups expire and are overwritten. It is
               not accessible in the app during that window.
             </li>
             <li>
-              <strong>Anonymous crash reports</strong> — diagnostic error reports that
+              <strong>Anonymous crash reports</strong>: diagnostic error reports that
               contain no personal information are retained by our error-monitoring provider
               for up to <strong>90 days</strong> and then discarded.
             </li>
             <li>
-              <strong>Records we're legally required to keep</strong> — retained only for as
+              <strong>Records we're legally required to keep</strong>: retained only for as
               long as the law requires, and for no other purpose.
             </li>
             <li>
-              <strong>Waitlist email</strong> — if you separately signed up for launch
+              <strong>Waitlist email</strong>: if you separately signed up for launch
               emails on streaq.club, that's a separate list. Use the unsubscribe link in any
               of those emails, or ask us in the same message.
             </li>
@@ -182,19 +152,6 @@ const UPDATED = 'August 27, 2026';
   .page {
     position: relative;
     min-height: 100vh;
-  }
-
-  .topbar {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 40px 60px;
-    max-width: 720px;
-    margin: 0 auto;
-  }
-  .brand-link {
-    text-decoration: none;
   }
 
   .doc {
@@ -285,7 +242,7 @@ const UPDATED = 'August 27, 2026';
     text-decoration-color: var(--fg);
   }
 
-  /* Numbered steps — the part a Play reviewer needs to find at a glance. */
+  /* Numbered steps: the part a Play reviewer needs to find at a glance. */
   .steps {
     list-style: none;
     margin: 0 0 28px;
@@ -372,9 +329,6 @@ const UPDATED = 'August 27, 2026';
   }
 
   @media (max-width: 720px) {
-    .topbar {
-      padding: 14px 28px;
-    }
     .doc {
       padding: 18px 28px 0;
     }

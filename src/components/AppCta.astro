@@ -2,7 +2,7 @@
 // Primary call to action. Streaq is generally available on two surfaces, so
 // this is a pair of links, not a form: the Android app on Google Play (primary)
 // and the web app (secondary ghost button). No client JS, no third-party
-// request — the Play badge is Google's official artwork, served from public/
+// request: the Play badge is Google's official artwork, served from public/
 // rather than hotlinked from play.google.com.
 // Inline row on desktop; stacked full-width inside .layout-mobile.
 interface Props {
@@ -10,14 +10,12 @@ interface Props {
   playCta?: string;
   webHref?: string;
   webCta?: string;
-  note?: string;
 }
 const {
   playHref = 'https://play.google.com/store/apps/details?id=club.streaq.app',
   playCta = 'Get it on Google Play',
   webHref = 'https://app.streaq.club',
-  webCta = 'Open in your browser',
-  note = 'Same streaks on your phone and in your browser',
+  webCta = 'Open in browser',
 } = Astro.props;
 ---
 
@@ -49,7 +47,6 @@ const {
       </svg>
     </a>
   </div>
-  <div class="cta-note">{note}</div>
 </div>
 
 <style>
@@ -60,6 +57,8 @@ const {
 
   /* ── desktop: two inline pills, centered under the hero ── */
   .cta-row {
+    /* Badge height; the ghost button's width is derived from it below. */
+    --badge-h: 84px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -85,7 +84,7 @@ const {
       color 160ms ease;
   }
   /* Play badge: the PNG is 646x250 with 41px of transparent clear space on
-     every side, so the artwork is 66.8% of the rendered height — 84px here
+     every side, so the artwork is 66.8% of the rendered height; 84px here
      puts it at the ghost button's 56px. Height only, so the ratio is kept. */
   .cta-badge {
     display: inline-flex;
@@ -98,10 +97,16 @@ const {
   }
   .cta-badge img {
     display: block;
-    height: 84px;
+    height: var(--badge-h);
     width: auto;
   }
+  /* Same width as the badge's visible artwork: 564 of the PNG's 646px width
+     is artwork (41px clear space each side), at 250px tall. */
   .cta-btn--ghost {
+    justify-content: center;
+    width: calc(var(--badge-h) * 564 / 250);
+    padding-left: 0;
+    padding-right: 0;
     background: transparent;
     color: var(--sub);
     border-color: var(--field-border);
@@ -117,41 +122,19 @@ const {
     flex-shrink: 0;
     transition: transform 160ms ease;
   }
-  .cta-note {
-    font-family: var(--font-mono);
-    font-size: 11.5px;
-    color: var(--mute);
-    letter-spacing: 0.04em;
-    margin-top: 18px;
-    text-transform: uppercase;
-    text-align: center;
-  }
-
-  /* ── mobile: stacked full-width buttons, left-aligned note ── */
+  /* ── mobile: stacked, centred buttons of equal width ── */
   :global(.layout-mobile) .cta {
     max-width: 100%;
   }
   :global(.layout-mobile) .cta-row {
+    --badge-h: 90px;
     flex-direction: column;
-    align-items: stretch;
+    align-items: center;
     gap: 4px;
   }
   :global(.layout-mobile) .cta-btn {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    padding: 18px 22px;
+    padding-top: 18px;
+    padding-bottom: 18px;
     border-radius: 13px;
-  }
-  :global(.layout-mobile) .cta-badge {
-    justify-content: center;
-  }
-  :global(.layout-mobile) .cta-badge img {
-    height: 90px;
-  }
-  :global(.layout-mobile) .cta-note {
-    text-align: left;
-    padding-left: 4px;
-    margin-top: 15px;
   }
 </style>

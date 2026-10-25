@@ -2,7 +2,7 @@
 import { defineConfig } from 'astro/config';
 
 // Standalone static marketing site for Streaq.
-// No integrations needed — plain HTML/CSS with a sprinkle of vanilla JS.
+// No integrations needed: plain HTML/CSS with a sprinkle of vanilla JS.
 //
 // Served from the custom apex domain streaq.club (GitHub Pages).
 // `public/CNAME` holds the domain; assets resolve at the root (/_astro/…),

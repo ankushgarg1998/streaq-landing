@@ -14,7 +14,7 @@ const HUES = [42, 162, 220, 300, 18, 340]; // amber, green, blue, plum, rust, ro
 const mFill = (h: number) => `oklch(0.78 0.09 ${h})`;
 const mDeep = (h: number) => `oklch(0.58 0.11 ${h})`;
 
-// deterministic "kept" pattern — looks lived-in, not random noise
+// deterministic "kept" pattern: looks lived-in, not random noise
 function kept(row: number, col: number, cols: number): boolean {
   const r = Math.sin(row * 12.9898 + col * 78.233) * 43758.5453;
   const v = r - Math.floor(r); // 0..1

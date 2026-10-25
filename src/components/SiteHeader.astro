@@ -1,0 +1,35 @@
+---
+// Full-width top bar for the inner pages, matching the home page's bar:
+// wordmark at the left edge, theme toggle at the right. Only the reading
+// column below it is narrow.
+import BrandLockup from './BrandLockup.astro';
+import ThemeToggle from './ThemeToggle.astro';
+---
+
+<header class="site-head">
+  <a class="brand-link" href="/" aria-label="Streaq home"><BrandLockup size={30} /></a>
+  <ThemeToggle />
+</header>
+
+<style>
+  .site-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: clamp(24px, 4vh, 40px) 60px;
+  }
+  .brand-link {
+    text-decoration: none;
+    border-radius: 8px;
+  }
+  .brand-link:focus-visible {
+    outline: 2px solid var(--fg);
+    outline-offset: 4px;
+  }
+
+  @media (max-width: 720px) {
+    .site-head {
+      padding: 14px 28px;
+    }
+  }
+</style>

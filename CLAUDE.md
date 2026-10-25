@@ -1,7 +1,7 @@
-# Streaq landing — developer notes
+# Streaq landing: developer notes
 
 Standalone static marketing site for **Streaq** (a habit tracker). It is fully
-independent of the main app — its own Astro project, deployed on its own to
+independent of the main app: its own Astro project, deployed on its own to
 GitHub Pages at the custom domain **streaq.club**.
 
 > The public `README.md` is intentionally product-facing. Keep dev/ops details
@@ -9,7 +9,7 @@ GitHub Pages at the custom domain **streaq.club**.
 
 ## Stack
 
-- **Astro** `^5.14` — static output, zero JS by default; the only client JS is a
+- **Astro** `^5.14`: static output, zero JS by default; the only client JS is a
   couple of small inline `<script>` blocks (theme toggle).
 - **pnpm** 10 · **Node 22** (`.nvmrc` = `lts/jod`; `engines.node` = `>=22 <23`).
 
@@ -25,13 +25,21 @@ pnpm check    # astro check (type/diagnostics)
 
 ## Structure
 
-- `src/pages/index.astro` — the landing page. Two layouts (`.layout-desktop`
+- `src/pages/index.astro`: the landing page. Two layouts (`.layout-desktop`
   centered-editorial, `.layout-mobile` stacked) toggled at `@media (max-width: 720px)`.
-- `src/pages/privacy.astro`, `src/pages/delete-account.astro` — policy pages.
-- `src/components/` — `BrandLockup`, `ThemeToggle`, `Eyebrow`, `AppCta`, `DotGrid`.
-- `src/styles/tokens.css` — design tokens for `:root` (light) and
+  The site footer (which links to the manifesto) follows the hero.
+- `src/pages/manifesto.astro`: why we're building Streaq. A public, high-level
+  reflection of `proj2/product/principles.md`; every promise on it must be true
+  of the shipped app.
+- `src/pages/privacy.astro`, `src/pages/delete-account.astro`: policy pages.
+- `src/components/`: `BaseHead` (shared `<head>`: meta, canonical, OG/Twitter,
+  fonts, pre-paint theme script; every page uses it), `SiteHeader` (full-width
+  top bar for the inner pages, matching the home bar), `SiteFooter`,
+  `WeekDiary` (the manifesto's interactive copy of the app's Week view), `BrandLockup`, `ThemeToggle`,
+  `Eyebrow`, `AppCta`, `DotGrid`.
+- `src/styles/tokens.css`: design tokens for `:root` (light) and
   `[data-theme='dark']`.
-- `public/` — `CNAME`, `favicon.svg`, `og.png` (copied verbatim into `dist/`).
+- `public/`: `CNAME`, `favicon.svg`, `og.png` (copied verbatim into `dist/`).
 
 ## Theming
 
@@ -42,13 +50,13 @@ script in `<head>` sets it before paint (defaults to light) from
 ## Call to action
 
 Streaq is generally available on two surfaces, so `AppCta.astro` renders two plain
-links — no form, no client JS, no third-party request:
+links (no form, no client JS, no third-party request):
 
-- **primary** — the Android app, `https://play.google.com/store/apps/details?id=club.streaq.app`
+- **primary**: the Android app, `https://play.google.com/store/apps/details?id=club.streaq.app`
   (listing name "Streaq - Habit Tracker");
-- **secondary** (ghost button) — the web app, `https://app.streaq.club`.
+- **secondary** (ghost button): the web app, `https://app.streaq.club`.
 
-Both URLs and the CTA/kicker/note strings live as consts at the top of
+Both URLs and the CTA/kicker strings live as consts at the top of
 `index.astro`.
 
 The primary CTA is Google's **official badge**, `public/google-play-badge.png`
@@ -58,7 +66,7 @@ unmodified: the PNG's 41px transparent border on each side is the required clear
 space, so never crop it or paint a background onto it, and scale it by height
 only. The artwork is black with a #A6A6A6 outline, which reads on both the cream
 and the ink page, so it needs no theming. The visible button is 66.8% of the
-rendered height — `height: 84px` matches the ghost button's 56px, and the row's
+rendered height, so `height: 84px` matches the ghost button's 56px, and the row's
 2px gap is small because the badge brings its own ~14px of side clear space.
 The `alt` text must stay "Get it on Google Play".
 
@@ -68,11 +76,11 @@ the Play one.
 The pre-launch email waitlist (Kit / ConvertKit double opt-in, `Signup.astro`,
 `/confirmed`, `PUBLIC_KIT_FORM_ID`) was removed when the app went GA. Kit form
 `9503947` still holds the addresses collected then; its post-confirmation
-redirect pointed at `https://streaq.club/confirmed`, which no longer exists —
+redirect pointed at `https://streaq.club/confirmed`, which no longer exists;
 repoint it (to `https://app.streaq.club`) or archive the form in the Kit
 dashboard. `privacy.astro` still describes that data in the past tense.
 
-## Deploy — GitHub Pages
+## Deploy: GitHub Pages
 
 - Repo: `ankushgarg1998/streaq-landing` (personal account), branch `master`.
 - `.github/workflows/deploy.yml` builds and publishes on every push to `master`.
@@ -83,9 +91,9 @@ dashboard. `privacy.astro` still describes that data in the past tense.
 - `public/CNAME` = `streaq.club`; `astro.config.mjs` has `site: 'https://streaq.club'`
   and **no `base`** (assets resolve at the domain root).
 - DNS records at the registrar:
-  - **apex `@`** — A → `185.199.108.153`, `.109.153`, `.110.153`, `.111.153`;
+  - **apex `@`**: A → `185.199.108.153`, `.109.153`, `.110.153`, `.111.153`;
     AAAA → `2606:50c0:8000::153` … `8003::153`.
-  - **`www`** (optional) — CNAME → `ankushgarg1998.github.io`.
+  - **`www`** (optional): CNAME → `ankushgarg1998.github.io`.
 - After DNS resolves: set the custom domain in Settings → Pages, then enable
   **Enforce HTTPS**.
 - **To revert to the project URL** (`ankushgarg1998.github.io/streaq-landing`):
@@ -101,7 +109,7 @@ dashboard. `privacy.astro` still describes that data in the past tense.
 ## Link previews (Open Graph)
 
 `public/og.png` is a 2400×1260 (1.91:1) card; `og:*` + `twitter:*` tags in
-`index.astro` reference it with **absolute** URLs (scrapers require absolute).
+`BaseHead.astro` reference it with **absolute** URLs (scrapers require absolute).
 Previews only work once `streaq.club` is publicly serving; scrapers cache hard
 (refresh via the Facebook debugger / X Card Validator / LinkedIn Post Inspector).
 
@@ -116,4 +124,4 @@ headless Chrome:
   --screenshot=public/og.png /tmp/og-card.html
 ```
 
-If the image dimensions change, update `og:image:width`/`height` in `index.astro`.
+If the image dimensions change, update `og:image:width`/`height` in `BaseHead.astro`.

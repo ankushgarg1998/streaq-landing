@@ -1,0 +1,55 @@
+---
+// Site-wide footer: the pages people look for (and that Play reviewers check)
+// plus the contact address. No wordmark: the header already carries it.
+const CONTACT = 'hello@streaq.club';
+const links = [
+  { href: '/manifesto', label: 'Manifesto' },
+  { href: 'https://app.streaq.club', label: 'Open the app' },
+  { href: '/privacy', label: 'Privacy' },
+  { href: '/delete-account', label: 'Delete your account' },
+  { href: `mailto:${CONTACT}`, label: CONTACT },
+];
+---
+
+<footer class="site-foot">
+  <nav aria-label="Footer">
+    <ul>
+      {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+    </ul>
+  </nav>
+</footer>
+
+<style>
+  .site-foot {
+    border-top: 1px solid var(--surface-border);
+    padding: 24px 28px;
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 24px;
+  }
+  a {
+    font-size: 14px;
+    color: var(--mute);
+    text-decoration: none;
+    border-radius: 4px;
+  }
+  a:hover {
+    color: var(--fg);
+  }
+  a:focus-visible {
+    outline: 2px solid var(--fg);
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 720px) {
+    .site-foot {
+      padding: 24px 28px 32px;
+    }
+  }
+</style>
