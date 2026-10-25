@@ -210,11 +210,15 @@ const WEB_CTA = 'Open in browser';
   }
 
   /* ── mobile ── */
+  /* On phones the hero gets the whole first screen (svh: measured with the
+     browser's toolbars showing) and the footer sits below it. Squeezing both
+     into one phone screen left no room to breathe. Spacing steps: 16/24/32/40. */
   .layout-mobile {
     position: relative;
     flex-direction: column;
-    flex: 1;
-    padding: 14px 28px 28px;
+    flex: none;
+    min-height: 100svh;
+    padding: 14px 28px clamp(24px, 5svh, 40px);
     overflow: hidden;
   }
   .mb-glow {
@@ -243,9 +247,10 @@ const WEB_CTA = 'Open in browser';
     flex-direction: column;
     justify-content: center;
     position: relative;
+    padding: clamp(16px, 4svh, 32px) 0;
   }
   .mb-eyebrow {
-    margin-bottom: 18px;
+    margin-bottom: 16px;
   }
   .mb-h1 {
     font-family: var(--font-display);
@@ -264,7 +269,7 @@ const WEB_CTA = 'Open in browser';
     font-size: 16.5px;
     line-height: 1.5;
     color: var(--sub);
-    margin: 18px 0 28px;
+    margin: 24px 0 clamp(24px, 5svh, 40px);
     text-wrap: pretty;
   }
   .mb-motif {
