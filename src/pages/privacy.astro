@@ -17,7 +17,7 @@ import Eyebrow from '../components/Eyebrow.astro';
 //     Session Replay (proj2/app/src/lib/observability/)
 // If any of that changes, update this page and the Data safety form together.
 
-const UPDATED = 'August 27, 2026';
+const UPDATED = 'October 26, 2026';
 const CONTACT = 'hello@streaq.club';
 
 // Each section renders as a numbered block; the nav is derived from this list
@@ -137,11 +137,15 @@ const sections = [
               <strong>Your check-ins</strong>: which habit you completed, which day it
               counted for, and when you marked it.
             </li>
+            <li>
+              <strong>Who sees each habit</strong>: whether it's shared with all your
+              friends, only some of them, or only you, and which friends you picked.
+            </li>
           </ul>
           <p class="note">
             Habit names are free text, so treat them as you would anything else you type
-            into an app you share with friends. If you'd rather a habit not be legible to
-            someone else, name it something only you would recognise.
+            into an app you share with friends. If you'd rather friends not see a habit,
+            make it private: it stays fully yours, streaks and all.
           </p>
 
           <h3>Your friends</h3>
@@ -229,17 +233,24 @@ const sections = [
         <section class="s" id="what-friends-see">
           <h2><span class="s-num">04</span>What friends can see</h2>
           <p>
-            This is the part worth reading twice, because it's the one thing about Streaq
-            that surprises people.
+            This is the part worth reading twice, because it's the part that matters most
+            in an app you share.
           </p>
           <p>
             <strong
-              >Once you accept a friend request, that friend can see all of your habits and
-              your check-in history for them</strong
-            >, along with your display name and avatar. There is no per-habit privacy
-            setting in this version of Streaq. A habit is either something you track in
-            Streaq, and therefore visible to your accepted friends, or something you don't
-            track here. That's the point of the app: the friends keep you honest.
+              >Each habit has its own audience, and you choose it: all your friends, only
+              the friends you pick, or only you.</strong
+            >
+            New habits start shared with all your friends. An accepted friend sees a habit
+            (its name, details and full check-in history) only if it's shared with them,
+            along with your display name and avatar. They don't see your other habits, and
+            can't tell they exist. From Manage friends you can see which of your habits any
+            one friend can see.
+          </p>
+          <p>
+            When you share a habit with someone new, they see its whole history, not just
+            what happens next. When you hide a habit from someone, it leaves their app the
+            next time it syncs. We can't undo what they've already seen.
           </p>
           <p>
             Friendship is mutual and consensual. Nobody sees anything until you accept their
